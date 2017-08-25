@@ -16,14 +16,18 @@ public class PersonOps {
     /* Method that add the person object to list */
     public String addPerson(String name,String category,String wants_accomodation,String roomName) {
 
-        String message = " Person added successfully";
+        String message = "Person has been added successfully";
 
-
+        if (name == "" || category==""){
+            message = "Ensure that you enter both name and category";
+            return message;
+        }
         person.setName(name);
         person.setCategory(category);
         person.setAccomodation(wants_accomodation);
         person.setRoomAllocation(roomName);
         peopleList.add(person);
+
 
         return message;
     }
