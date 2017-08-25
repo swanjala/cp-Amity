@@ -50,5 +50,10 @@ public class RoomOps extends Person {
         return message;
     }
 
+    public String printRoom(String roomName){
+
+        return message;
+    }
+
 
 }

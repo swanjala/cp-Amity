@@ -61,4 +61,13 @@ public class RoomTest {
         assertEquals(officeMessage,"This room category does not exist");
     }
 
+    @Test
+    public void test_print_room_of_same_type_is_available(){
+
+        genericMessage = room.printRoom("VALHALLA");
+        assertEquals(genericMessage,"Room Unoccupied");
+
+    }
+
+
 }
