@@ -3,8 +3,8 @@ package com.app;
 import java.sql.*;
 
 /*
-* Class for defining database constrains*/
-public class Models {
+* Helper class for setting up database*/
+public class dbHelper {
 
 
     private static Connection connection =null;
@@ -12,25 +12,6 @@ public class Models {
     private static String sqlStatement= "";
     private String message ="";
 
-//    public void setConnection(Connection connection){
-//
-//
-//
-//    }
-//
-//    public void setStatement(Statement statement){
-//
-//
-//    }
-//    public Connection getConnection(Connection connection){
-//
-//        return connection;
-//    }
-//
-//    public Statement getStatement(Statement statement){
-//
-//        return statement;
-//    }
 
     public String createDB(String dbName){
 
@@ -40,7 +21,7 @@ public class Models {
             connection = DriverManager.getConnection(url);
 
             if (connection != null){
-                sqlStatement ="CREATE DATABASE " + dbName +".db";
+                sqlStatement ="CREATE DATABASE IF NOT EXISTS " + dbName +".db";
                 statement =connection.createStatement();
                 statement.execute(sqlStatement);
                 statement.close();
