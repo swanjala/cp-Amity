@@ -43,7 +43,7 @@ public class RoomTest {
     public void test_that_a_new_living_area_has_been_created_successfully() {
 
         livingRoomMessage = room.addRoom("SHELL","LIVING");
-        assertEquals(livingRoomMessage, "LIVING area has been creted successfully");
+        assertEquals(livingRoomMessage, "New room has been added");
 
     }
 
