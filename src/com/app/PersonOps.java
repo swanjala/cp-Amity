@@ -12,15 +12,16 @@ public class PersonOps {
 
     private List<Person> peopleList = new ArrayList<Person>();
     private Person person = new Person();
+    private StringBuilder sb = new StringBuilder();
 
     /* Method that add the person object to list */
-    public String addPerson(String name, String category, String wants_accomodation, String roomName) {
+    public List<Person> addPerson(String name, String category, String wants_accomodation, String roomName) {
 
         String message = "Person has been added successfully";
 
         if (name == "" || category == "") {
-            message = "Ensure that you enter both name and category";
-            return message;
+
+            return null;
         }
         if (wants_accomodation == "") {
 
@@ -37,13 +38,17 @@ public class PersonOps {
         peopleList.add(person);
 
 
-        return message;
+        return peopleList;
     }
    /* Method returns the list of pe ople who are saved in the application*/
 
-    public String printPeople() {
+    public String printPeople(List<Person> peopleList) {
 
-        return "";
+        for (int i = 0; i < peopleList.size(); i++) {
+            sb.append(" "+ peopleList.get(i));
+
+        }
+        return sb.toString();
 
     }
 
