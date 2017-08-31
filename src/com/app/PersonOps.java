@@ -45,10 +45,11 @@ public class PersonOps {
 
     public String printPeople(List<Person> peopleList) {
 
-        for (int i = 0; i < peopleList.size(); i++) {
-            sb.append(" "+ peopleList.get(i));
-
+        for (Person peopleData:peopleList
+             ) {
+            sb.append(" "+peopleList+"\n");
         }
+
         return sb.toString();
 
     }
