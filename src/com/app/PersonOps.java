@@ -15,6 +15,7 @@ public class PersonOps {
     private StringBuilder sb = new StringBuilder();
 
     /* Method that add the person object to list */
+
     public List<Person> addPerson(String name, String category, String wants_accomodation, String roomName) {
 
         String message = "Person has been added successfully";
@@ -58,7 +59,7 @@ public class PersonOps {
         return "";
     }
 
-    public void reallocatePersonRoom(List<Person> roomList, String personName, Person newRoom) {
+    public void reallocatePersonRoom(List<Room> roomList, String personName, Room newRoom) {
 
 	/* Reallocate person to new space */
         int personIndex = 0; // person field index;
@@ -70,7 +71,8 @@ public class PersonOps {
             return;
         }
 
-        for (int i = 0; i < roomList.size(); i++) {
+        for (Room roomData: roomList
+             ) {
 
             if (roomList.get(personIndex).toString() == personName) {
 
@@ -84,6 +86,9 @@ public class PersonOps {
                 roomList.set(1, newRoom);
 
             }
+
+
         }
+
     }
 }
