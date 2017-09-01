@@ -1,24 +1,27 @@
 package com.app;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class constaing data states for people in Amity.
  */
 
-public class Person extends Room {
+public class Person {
 
 
-    private String name,category;
-    private char wants_accomodation;
+    private String name,category,roomName;
+    private String wants_accomodation;
     List <String> personList = new ArrayList<String>();
 
  /* Contructor function for the initialioskatin of data items */
 
 
-    public Person(String name, String category, char wants_accomodation = 'N'){
+    public void  Person(String name, String category, String wants_accomodation, String roomName){
 
-        this.name = setName(name);
-        this.category = setCategory(category);
-        this.wants_accomodation = setAccomodation(wants_accomodation);
+        setName(name);
+        setCategory(category);
+        setAccomodation(wants_accomodation);
+        setRoomAllocation(roomName);
 
     }
 
@@ -26,22 +29,18 @@ public class Person extends Room {
 
     public void setName(String name){
 
-        this.name = name;
- /* Sets up the users category */
-
+        this.name = name ;
     }
 
     public void setCategory(String category){
 
         this.category = category;
     }
-/* Sets up accomodation*/
 
-    public void setAccomodation(String accomodation){
+    public void setAccomodation(String wants_accomodation){
 
-        this.accomodation = accomodation;
+        this.wants_accomodation = wants_accomodation;
     }
-/* Allocates a fellow a room */
 
     public void setRoomAllocation(String roomName){
 
@@ -49,7 +48,6 @@ public class Person extends Room {
 
     }
 
-    /* Gets the persons name*/
     public String getName (){
 
         return name;
@@ -70,7 +68,7 @@ public class Person extends Room {
     }
  /* Gets the persons accomdation preference*/
 
-    public Char getAccomodation(){
+    public String getAccomodation(){
 
         return wants_accomodation;
     }

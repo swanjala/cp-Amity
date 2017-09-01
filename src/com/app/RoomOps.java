@@ -1,5 +1,9 @@
 package com.app;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class containing all the room functional operations.
  *
@@ -7,12 +11,14 @@ package com.app;
 
 
 public class RoomOps extends Person {
+
     private List<Room> roomList = new ArrayList<Room>();
+    private int capacity = 0;
     private String message;
 
 	/* Method that adds a new room to the application*/
 
-    public String addRoom(){
+    public String addRoom(String roomName, String roomCategory){
 
         String message = "New room has been added";
 
@@ -22,12 +28,12 @@ public class RoomOps extends Person {
         room.setCategory(roomCategory);
 
         if (roomCategory =="OFFICE") {
-            int capacity = 6;
+            capacity = 6;
 
             room.setCapacity(capacity);
 
         }else if(roomCategory=="LIVING"){
-            int capacity = 4;
+            capacity = 4;
 
             room.setCapacity(capacity);
 
@@ -38,9 +44,13 @@ public class RoomOps extends Person {
 
         room.setRoomName(roomName);
         room.setCategory(roomCategory);
-        room.setCapacity(roomCapacity);
-
+        room.setCapacity(capacity);
         roomList.add(room);
+
+        return message;
+    }
+
+    public String printRoom(String roomName){
 
         return message;
     }
