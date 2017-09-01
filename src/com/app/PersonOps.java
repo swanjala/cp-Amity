@@ -1,6 +1,5 @@
 package com.app;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,14 +10,14 @@ import java.util.List;
 public class PersonOps {
 
     private List<Person> peopleList = new ArrayList<Person>();
+    private List<String> Unallocated = new ArrayList<String>();
     private Person person = new Person();
     private StringBuilder sb = new StringBuilder();
+
 
     /* Method that add the person object to list */
 
     public List<Person> addPerson(String name, String category, String wants_accomodation, String roomName) {
-
-        String message = "Person has been added successfully";
 
         if (name == "" || category == "") {
 
@@ -54,22 +53,28 @@ public class PersonOps {
 
     }
 
-    public String printUnallocated() {
-       /* Prints out people who have not been allocated accomodation*/
+    public void printUnallocated() {
 
-        return "";
+        for (int i = 0; i < peopleList.size() ; i++) {
+
+            if (peopleList.get(i).getAccomodation()==""){
+                System.out.println(peopleList.get(i).getName());
+            }
+        }
+
+
     }
 
-    public void reallocatePersonRoom(List<Room> roomList, String personName, Room newRoom) {
+    public String reallocatePersonRoom(List<Room> roomList, String personName, Room newRoom) {
 
 	/* Reallocate person to new space */
         int personIndex = 0; // person field index;
         int roomIndex = 1;
+        String message ="Reallocation successful";
 
         if (roomList.size() == 0) {
-            String message = " No rooms to reallocate";
-            System.out.print(message);
-            return;
+            message = " No rooms to reallocate";
+            return message;
         }
 
         for (Room roomData: roomList
@@ -80,11 +85,13 @@ public class PersonOps {
 
                 if (roomList.get(roomIndex) == newRoom) {
                     String message = "Cannot reallocate to the the same room";
-                    System.out.println(message);
+                    return message;
                 }
                 // set the room allocation to a new value
 
-                roomList.set(1, newRoom);
+                peopleList.get(personIndex).setRoomAllocation(newRoom.toString());
+
+                return message;
 
             }
 
