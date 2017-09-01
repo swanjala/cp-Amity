@@ -46,7 +46,8 @@ public class PersonOps {
 
         for (Person peopleData:peopleList
              ) {
-            sb.append(" "+peopleList+"\n");
+            sb.append(" "+peopleData.getName()+" "+ peopleData.getCategory()+
+                    peopleData.getCategory()+"\n");
         }
 
         return sb.toString();
@@ -84,7 +85,7 @@ public class PersonOps {
 
 
                 if (roomList.get(roomIndex) == newRoom) {
-                    String message = "Cannot reallocate to the the same room";
+                    message = "Cannot reallocate to the the same room";
                     return message;
                 }
                 // set the room allocation to a new value
