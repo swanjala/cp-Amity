@@ -66,7 +66,7 @@ public class PersonOps {
 
     }
 
-    public String reallocatePersonRoom(String personName, Room newRoom) {
+    public String reallocatePersonRoom(String personName, String newRoom) {
 
         int personIndex = 0;
         int roomIndex = 1;
@@ -83,12 +83,12 @@ public class PersonOps {
             if (roomList.get(personIndex).toString() == personName) {
 
 
-                if (roomList.get(roomIndex) == newRoom) {
+                if (roomList.get(roomIndex).toString() == newRoom) {
                     message = "Cannot reallocate to the the same room";
                     return message;
                 }
 
-                peopleList.get(personIndex).setRoomAllocation(newRoom.toString());
+                peopleList.get(personIndex).setRoomAllocation(newRoom);
 
             }
 
