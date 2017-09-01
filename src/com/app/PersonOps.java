@@ -1,6 +1,5 @@
 package com.app;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,16 +10,17 @@ import java.util.List;
 public class PersonOps {
 
     private List<Person> peopleList = new ArrayList<Person>();
+    private List<String> Unallocated = new ArrayList<String>();
     private Person person = new Person();
+    private StringBuilder sb = new StringBuilder();
+    private List<Room> roomList = new ArrayList<Room>();
 
-    /* Method that add the person object to list */
-    public String addPerson(String name, String category, String wants_accomodation, String roomName) {
 
-        String message = "Person has been added successfully";
+    public List<Person> addPerson(String name, String category, String wants_accomodation, String roomName) {
 
         if (name == "" || category == "") {
-            message = "Ensure that you enter both name and category";
-            return message;
+
+            return null;
         }
         if (wants_accomodation == "") {
 
@@ -37,48 +37,62 @@ public class PersonOps {
         peopleList.add(person);
 
 
-        return message;
+        return peopleList;
     }
    /* Method returns the list of pe ople who are saved in the application*/
 
-    public String printPeople() {
+    public String printPeople(List<Person> peopleList) {
 
-        return "";
-
-    }
-
-    public String printUnallocated() {
-       /* Prints out people who have not been allocated accomodation*/
-
-        return "";
-    }
-
-    public void reallocatePersonRoom(List<Person> roomList, String personName, Person newRoom) {
-
-	/* Reallocate person to new space */
-        int personIndex = 0; // person field index;
-        int roomIndex = 1;
-
-        if (roomList.size() == 0) {
-            String message = " No rooms to reallocate";
-            System.out.print(message);
-            return;
+        for (Person peopleData:peopleList
+             ) {
+            sb.append(" "+peopleData.getName()+" "+ peopleData.getCategory()+
+                    peopleData.getAccomodation()+"\n");
         }
 
-        for (int i = 0; i < roomList.size(); i++) {
+        return sb.toString();
+
+    }
+
+    public void printUnallocated() {
+
+        for (int i = 0; i < peopleList.size() ; i++) {
+
+            if (peopleList.get(i).getAccomodation()==""){
+                System.out.println(peopleList.get(i).getName() + "\n");
+            }
+        }
+
+    }
+
+    public String reallocatePersonRoom(String personName, String newRoom) {
+
+        int personIndex = 0;
+        int roomIndex = 1;
+        String message ="Reallocation successful";
+
+        if (roomList.size() == 0) {
+            message = " No rooms to reallocate";
+            return message;
+        }
+
+        for (Room roomData: roomList
+             ) {
 
             if (roomList.get(personIndex).toString() == personName) {
 
 
-                if (roomList.get(roomIndex) == newRoom) {
-                    String message = "Cannot reallocate to the the same room";
-                    System.out.println(message);
+                if (roomList.get(roomIndex).toString() == newRoom) {
+                    message = "Cannot reallocate to the the same room";
+                    return message;
                 }
-                // set the room allocation to a new value
 
-                roomList.set(1, newRoom);
+                peopleList.get(personIndex).setRoomAllocation(newRoom);
 
             }
+
         }
+
+        return message;
+
     }
 }
