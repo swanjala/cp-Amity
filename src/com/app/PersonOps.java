@@ -13,6 +13,7 @@ public class PersonOps {
     private List<String> Unallocated = new ArrayList<String>();
     private Person person = new Person();
     private StringBuilder sb = new StringBuilder();
+    private List<Room> roomList = new ArrayList<Room>();
 
 
     /* Method that add the person object to list */
@@ -47,7 +48,7 @@ public class PersonOps {
         for (Person peopleData:peopleList
              ) {
             sb.append(" "+peopleData.getName()+" "+ peopleData.getCategory()+
-                    peopleData.getCategory()+"\n");
+                    peopleData.getAccomodation()+"\n");
         }
 
         return sb.toString();
@@ -63,13 +64,11 @@ public class PersonOps {
             }
         }
 
-
     }
 
-    public String reallocatePersonRoom(List<Room> roomList, String personName, Room newRoom) {
+    public String reallocatePersonRoom(String personName, Room newRoom) {
 
-	/* Reallocate person to new space */
-        int personIndex = 0; // person field index;
+        int personIndex = 0;
         int roomIndex = 1;
         String message ="Reallocation successful";
 
@@ -88,16 +87,14 @@ public class PersonOps {
                     message = "Cannot reallocate to the the same room";
                     return message;
                 }
-                // set the room allocation to a new value
 
                 peopleList.get(personIndex).setRoomAllocation(newRoom.toString());
 
-                return message;
-
             }
 
-
         }
+
+        return message;
 
     }
 }
