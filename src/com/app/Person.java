@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class constaing data states for people in Amity.
+ * Class containing accessors and mutators for people in Amity.
  */
 
 public class Person {
@@ -13,9 +13,6 @@ public class Person {
     private String wants_accomodation;
     List <String> personList = new ArrayList<String>();
 
- /* Contructor function for the initialioskatin of data items */
-
-
     public void  Person(String name, String category, String wants_accomodation, String roomName){
 
         setName(name);
@@ -24,8 +21,6 @@ public class Person {
         setRoomAllocation(roomName);
 
     }
-
- /* Sets up the users name*/
 
     public void setName(String name){
 
@@ -53,26 +48,20 @@ public class Person {
         return name;
     }
 
- /* Gets the room a fellow is allocated*/
-
     public String getRoomName(){
-//
         return roomName;
     }
 
-    /* Gets the persons category*/
     public String getCategory(){
 
         return category;
 
     }
- /* Gets the persons accomdation preference*/
 
     public String getAccomodation(){
 
         return wants_accomodation;
     }
 
- /* Method to add a new person to the application */
 
 }
