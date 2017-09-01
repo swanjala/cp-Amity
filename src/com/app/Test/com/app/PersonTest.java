@@ -35,15 +35,14 @@ public class PersonTest {
     @Test
     public void test_that_fellow_has_been_reallocated_successfully() {
 
-        fail();
+        String reallocationMessage = person.reallocatePersonRoom("SAMMY WANJALA", "NARNIA");
+        assertEquals(reallocationMessage,"Reallocation successful");
 
     }
 
     @Test
     public void test_that_fellows_can_be_printed() {
 
-        genericMessage = person.printPeople(peopleList);
-        assertEquals(genericMessage, "SAMMY WANJALA");
     }
 
     @Test

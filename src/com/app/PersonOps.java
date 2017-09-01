@@ -16,8 +16,6 @@ public class PersonOps {
     private List<Room> roomList = new ArrayList<Room>();
 
 
-    /* Method that add the person object to list */
-
     public List<Person> addPerson(String name, String category, String wants_accomodation, String roomName) {
 
         if (name == "" || category == "") {
@@ -60,7 +58,7 @@ public class PersonOps {
         for (int i = 0; i < peopleList.size() ; i++) {
 
             if (peopleList.get(i).getAccomodation()==""){
-                System.out.println(peopleList.get(i).getName());
+                System.out.println(peopleList.get(i).getName() + "\n");
             }
         }
 
