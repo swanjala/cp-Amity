@@ -9,7 +9,7 @@ import java.util.List;
 public class Room extends Person {
 
     private List<String> roomNameList;
-    private String [] roomName= new String[100];
+    private String roomName;
     private String category;
     private int capacity = 0;
     private List<String> room_occupants = new ArrayList<String>();
@@ -20,11 +20,9 @@ public class Room extends Person {
     }
 
     /* Set room name */
-    public void setRoomName(List<String> roomNameList) {
+    public void setRoomName(String roomName) {
 
-        for (int i = 0; i <roomNameList.size() ; i++) {
-            this.roomName[i] = roomNameList.get(i);
-        }
+       this.roomName = roomName;
 
     }
 
@@ -37,7 +35,7 @@ public class Room extends Person {
 
     public void setRoomCategory(String roomCategory) {
 
-        this.category= roomCategory;
+        this.category = roomCategory;
     }
 
     /* Get room name*/
