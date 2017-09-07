@@ -1,6 +1,4 @@
 package com.app;
-import com.app.Person;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,26 +8,24 @@ import java.util.List;
  */
 public class Room extends Person {
 
-    private String roomName, category;
+    private List<String> roomNameList;
+    private String [] roomName= new String[100];
+    private String category;
     private int capacity = 0;
     private List<String> room_occupants = new ArrayList<String>();
 
-    // setting up a default constuctor
 
     public void Room (){
 
     }
 
-    public void Room(String roomName, String category) {
-
-        this.roomName = roomName;
-        this.category = category;
-    }
-
     /* Set room name */
-    public void setRoomName(String roomName) {
+    public void setRoomName(List<String> roomNameList) {
 
-        this.roomName = roomName;
+        for (int i = 0; i <roomNameList.size() ; i++) {
+            this.roomName[i] = roomNameList.get(i);
+        }
+
     }
 
     /* Set the room capacity */
@@ -46,6 +42,7 @@ public class Room extends Person {
 
     /* Get room name*/
     public String getRoomName() {
+
         return roomName;
     }
 	/* Get room category*/
