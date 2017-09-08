@@ -14,9 +14,10 @@ public class Home {
 
     private static String startText;
     private static String nav = "";
-    private static String navContent ="";
+    private static String navContent = "";
     private static Scanner input;
     private static PersonOps person = new PersonOps();
+    private static RoomOps room = new RoomOps();
 
 
     private static String start() {
@@ -44,15 +45,15 @@ public class Home {
         List<Person> addPersonVarObject = new ArrayList<Person>();
         Person personVars = new Person();
 
-        StringTokenizer addPersonST = new StringTokenizer(addPersonInput.substring(10)," ");
+        StringTokenizer addPersonST = new StringTokenizer(addPersonInput.substring(10), " ");
         StringBuilder nameSb = new StringBuilder();
 
-        while (addPersonST.hasMoreTokens()){
+        while (addPersonST.hasMoreTokens()) {
 
-            for (int i = 0; i < 2 ; i++) {
+            for (int i = 0; i < 2; i++) {
 
                 String nameVal = addPersonST.nextToken();
-                nameSb.append(" " +nameVal);
+                nameSb.append(" " + nameVal);
             }
 
             String Category = addPersonST.nextToken();
@@ -70,30 +71,47 @@ public class Home {
     private static List<Room> addRoomTokenizer(String addRoomInput) {
 
         List<Room> addRoomVarObject = new ArrayList<Room>();
+        List<String> roomList = new ArrayList<String>();
         Room roomVars = new Room();
 
-        StringTokenizer addRoomST = new StringTokenizer(addRoomInput.substring(10)," ");
+        StringTokenizer addRoomST = new StringTokenizer(addRoomInput.substring(10), " ");
         StringBuilder roomNameSb = new StringBuilder();
 
-        while (addRoomST.hasMoreTokens()){
+        while (addRoomST.hasMoreTokens()) {
 
-            for (int i = 0; i < 2 ; i++) {
-
-                String RoomNameVal = addRoomST.nextToken();
-                roomNameSb.append(" " +RoomNameVal);
+            for (int i = 0; i < 1; i++) {
+                String RoomCategory = addRoomST.nextToken();
+                roomVars.setRoomCategory(RoomCategory.toString());
             }
 
-            String RoomCategory = addRoomST.nextToken();
+            String RoomNameVal = addRoomST.nextToken();
 
-            roomVars.setRoomName(roomNameSb.toString());
-            roomVars.setRoomCategory(RoomCategory.toString());
+            roomList.add(RoomNameVal);
 
-
+        }
+        for (int i = 0; i < roomList.size(); i++) {
+            roomVars.setRoomName(roomList.get(i).toString());
             addRoomVarObject.add(roomVars);
-
         }
 
         return addRoomVarObject;
+    }
+
+    private static List<String> reallocateRoomTokenizer(String reallocateRoomInput) {
+        List<String> reallocateVarObj = new ArrayList<String>();
+
+        StringTokenizer reallocateST = new StringTokenizer(reallocateRoomInput.substring(10), " ");
+
+        while (reallocateST.hasMoreTokens()) {
+            String personName = reallocateST.nextToken();
+            String newRoomName = reallocateST.nextToken();
+
+            reallocateVarObj.add(personName);
+            reallocateVarObj.add(newRoomName);
+        }
+
+
+        return reallocateVarObj;
     }
 
     public static void main(String[] arg) {
@@ -104,28 +122,37 @@ public class Home {
 
         do {
             nav = input.nextLine();
-            navContent = nav.substring(0,12);
+            navContent = nav.substring(0, 12);
 
-            if (navContent.contains("Add Person")){
+            if (navContent.contains("Add Person")) {
 
                 List<Person> varList = addPersonTokenizer(nav);
 
+                person.addPerson(varList.get(0).getName(), varList.get(0).getCategory()
+                        , "N");
 
             }
-            if (navContent.contains("Add Room")){
+            if (navContent.contains("Add Room")) {
 
                 List<Room> roomVarList = addRoomTokenizer(nav);
+                System.out.println(roomVarList.get(1).toString());
+
+                room.addRoom(roomVarList.get(0).toString(), roomVarList.get(1).toString());
+
             }
-            if (navContent.contains("Reallocate")){
-                /* Reallocate Logic */
+            if (navContent.contains("Reallocate")) {
+
+                List<String> roomVars = reallocateRoomTokenizer(nav);
+                person.reallocatePersonRoom(roomVars.get(0).toString(), roomVars.get(1).toString());
+
             }
-            if (navContent.contains("Save State")){
+            if (navContent.contains("Save State")) {
                 /* Save State Logic */
             }
-            if (navContent.contains("Load state")){
+            if (navContent.contains("Load state")) {
                 /* Load State Logic*/
             }
-        }while (!nav.equals("quit"));
+        } while (!nav.equals("quit"));
 
         System.exit(0);
 
