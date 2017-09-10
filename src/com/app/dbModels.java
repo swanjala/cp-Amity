@@ -17,6 +17,7 @@ public class dbModels {
     PersonOps personOps = new PersonOps();
     RoomOps roomOps = new RoomOps();
 
+    /* Method that saves Room and Person app data state to database*/
 
     public String saveState(String dbName) {
 
@@ -71,7 +72,32 @@ public class dbModels {
         return message;
     }
 
-    public String loadState() {
+     /* Method that loads Room and Person app data state from database */
+
+    public String loadState(String dbName) {
+
+        String dbUrl = "jdbc:sqlite:"+ dbName +".db";
+
+        try{
+            Class.forName("org:sqlite:JDBC");
+            connection =DriverManager.getConnection(dbUrl);
+            statement = connection.createStatement();
+            sqlStatement = "SELECT * FROM PERSON";
+            statement.execute(sqlStatement);
+
+            /*
+            Logic to receive data from database and convert it to an array list
+
+            */
+
+            statement.close();
+            connection.close();
+
+            System.out.println("State loaded successfully");
+
+        }catch (Exception e){
+            return  e.getMessage();
+        }
         return message;
     }
 
