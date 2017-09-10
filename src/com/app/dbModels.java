@@ -89,31 +89,29 @@ public class dbModels {
             getConnection(dbUrl);
         }else
         {
-            statement = connection.createStatement();
-            sqlStatement = "SELECT * FROM PERSON";
-            ResultSet peopleLoadSet = dbData(sqlStatement,dbUrl);
 
-            while (peopleLoadSet.next()){
-                person.setName(peopleLoadSet.getString("NAME"));
-                person.setCategory(peopleLoadSet.getString("CATEGORY"));
+            String [] sqlStatement = new String[2];
+            ResultSet[] resultSet = new ResultSet[2];
+            statement = connection.createStatement();
+            sqlStatement[0] = "SELECT * FROM PERSON";
+            sqlStatement[1] = "SELECT * FROM ROOM";
+
+
+            for (int index = 0; index <2 ; index++) {
+                resultSet[index] = dbData(sqlStatement[index],dbUrl);
+            }
+
+            while (resultSet[0].next()){
+                person.setName(resultSet[0].getString("NAME"));
+                person.setCategory(resultSet[0].getString("CATEGORY"));
                 personOps.peopleList.add(person);
             }
-
-            statement.close();
-            connection.close();
-
-            System.out.println("People State loaded successfully");
-
-            statement = connection.createStatement();
-            sqlStatement = "SELECT * FROM ROOM";
-            ResultSet roomLoadSet = dbData(sqlStatement,dbUrl);
-
-            while (roomLoadSet.next()){
-                room.setRoomName(roomLoadSet.getString("NAME"));
-                room.setRoomCategory(roomLoadSet.getString("CATEGORY"));
+            while (resultSet[1].next()){
+                room.setRoomName(resultSet[1].getString("NAME"));
+                room.setRoomCategory(resultSet[1].getString("CATEGORY"));
                 roomOps.roomList.add(room);
-
             }
+
             statement.close();
             connection.close();
         }
