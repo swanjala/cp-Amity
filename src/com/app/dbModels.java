@@ -1,8 +1,6 @@
 package com.app;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * Database class that executes database commands to save and load Amity state
@@ -17,18 +15,26 @@ public class dbModels {
     PersonOps personOps = new PersonOps();
     RoomOps roomOps = new RoomOps();
 
+    public void getConnection(String dbUrl) throws ClassNotFoundException,SQLException{
+        Class.forName("org.sqlite.JDBC");
+        connection = DriverManager.getConnection(dbUrl);
+
+    }
+
     /* Method that saves Room and Person app data state to database*/
 
-    public String saveState(String dbName) {
+    public String saveState (String dbName) throws SQLException, ClassNotFoundException {
+
+        String dbUrl = "jdbc:sqlite:" + dbName + ".db";
 
         if (dbName == null) {
             message = "Add database Name";
             return message;
-        } else {
-            String dbUrl = "jdbc:sqlite:" + dbName + ".db";
-            try {
-                Class.forName("org.sqlite.JDBC");
-                connection = DriverManager.getConnection(dbUrl);
+        } else if (connection ==null) {
+
+            getConnection(dbUrl);
+
+        }else{
 
                 for (int index = 0; index < personOps.peopleList.size() ; index++) {
 
@@ -59,10 +65,6 @@ public class dbModels {
                 }
                 System.out.println("Room state had been Saved Successfully");
 
-            }catch (Exception e){
-
-                return e.getMessage();
-            }
 
             message  = "State Saved";
 
@@ -74,31 +76,63 @@ public class dbModels {
 
      /* Method that loads Room and Person app data state from database */
 
-    public String loadState(String dbName) {
+    public String loadState(String dbName) throws SQLException,ClassNotFoundException{
 
+        Person person = new Person();
+        Room room = new Room ();
         String dbUrl = "jdbc:sqlite:"+ dbName +".db";
 
-        try{
-            Class.forName("org:sqlite:JDBC");
-            connection =DriverManager.getConnection(dbUrl);
+        if (dbName== null) {
+            message = "Add Database name";
+            return message;
+        }else if (connection ==null){
+            getConnection(dbUrl);
+        }else
+        {
             statement = connection.createStatement();
             sqlStatement = "SELECT * FROM PERSON";
-            statement.execute(sqlStatement);
+            ResultSet peopleLoadSet = dbData(sqlStatement,dbUrl);
 
-            /*
-            Logic to receive data from database and convert it to an array list
-
-            */
+            while (peopleLoadSet.next()){
+                person.setName(peopleLoadSet.getString("NAME"));
+                person.setCategory(peopleLoadSet.getString("CATEGORY"));
+                personOps.peopleList.add(person);
+            }
 
             statement.close();
             connection.close();
 
-            System.out.println("State loaded successfully");
+            System.out.println("People State loaded successfully");
 
-        }catch (Exception e){
-            return  e.getMessage();
+            statement = connection.createStatement();
+            sqlStatement = "SELECT * FROM ROOM";
+            ResultSet roomLoadSet = dbData(sqlStatement,dbUrl);
+
+            while (roomLoadSet.next()){
+                room.setRoomName(roomLoadSet.getString("NAME"));
+                room.setRoomCategory(roomLoadSet.getString("CATEGORY"));
+                roomOps.roomList.add(room);
+
+            }
+            statement.close();
+            connection.close();
         }
+
         return message;
     }
+
+    public ResultSet dbData(String sqlStatement, String dbUrl) throws ClassNotFoundException,SQLException{
+
+        if (connection == null){
+            getConnection(dbUrl);
+        }
+
+        Statement statement = connection.createStatement();
+        ResultSet results = statement.executeQuery(sqlStatement);
+
+        return results;
+    }
+
+
 
 }
