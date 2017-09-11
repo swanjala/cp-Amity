@@ -55,7 +55,6 @@ public class dbModels {
                     "" + roomData.get(index).getRoomCategory() + "," + ")";
         }
 
-
         if (dbName == null) {
             message = "Add database Name";
             return message;
@@ -69,11 +68,30 @@ public class dbModels {
 
                 saveResultSet[index] = dbData(savePeopleSqlStatement[index], dbUrl);
 
+                if (saveResultSet[index].toString() == "true") {
+
+                    message = "Loading Success";
+                    return message;
+                } else {
+
+                    message = "Loading Fail";
+                    return message;
+                }
+
             }
 
             for (int index = 0; index < saveRoomSqlStatement.length; index++) {
 
                 saveResultSet[index] = dbData(saveRoomSqlStatement[index], dbUrl);
+                if (saveResultSet[index].toString() == "true") {
+
+                    message = "Loading Success";
+                    return message;
+                } else {
+
+                    message = "Loading Fail";
+                    return message;
+                }
 
             }
 
