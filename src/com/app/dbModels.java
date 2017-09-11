@@ -15,13 +15,25 @@ public class dbModels {
     private String sqlStatement = null;
     private String message = null;
     private PersonOps personOps = new PersonOps();
+    private dbHelper dHelper = new dbHelper();
     private RoomOps roomOps = new RoomOps();
     private Person person = new Person();
     private Room room = new Room();
     private List<Person> peopleData = new ArrayList<>();
     private List<Room> roomData = new ArrayList<>();
 
+
+    /* Invokes the database helper class */
+
+    public void initializeDb(String dbName){
+        dHelper.createDB(dbName);
+        dHelper.createPeopleTable(dbName);
+        dHelper.createRoomTable(dbName);
+    }
+
+    /* Establish connection with the database*/
     public void getConnection(String dbUrl) throws ClassNotFoundException, SQLException {
+
         Class.forName("org.sqlite.JDBC");
         connection = DriverManager.getConnection(dbUrl);
 
@@ -30,6 +42,8 @@ public class dbModels {
     /* Method that saves Room and Person app data state to database*/
 
     public String saveState(String dbName) throws SQLException, ClassNotFoundException {
+
+        initializeDb(dbName);
 
         String dbUrl = "jdbc:sqlite:" + dbName + ".db";
 
@@ -157,6 +171,7 @@ public class dbModels {
 
         return results;
     }
+
 
 
 }

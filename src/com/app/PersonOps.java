@@ -9,14 +9,17 @@ import java.util.List;
 
 public class PersonOps {
 
-    private List<Person> peopleList = new ArrayList<Person>();
+    public  List<Person> peopleList = new ArrayList<Person>();
     private List<String> Unallocated = new ArrayList<String>();
     private Person person = new Person();
     private StringBuilder sb = new StringBuilder();
     private List<Room> roomList = new ArrayList<Room>();
 
 
-    public List<Person> addPerson(String name, String category, String wants_accomodation, String roomName) {
+    public List<Person> addPerson(String name, String category, String wants_accomodation) {
+
+        //
+        String roomName = "HOGWARTS";
 
         if (name == "" || category == "") {
 
@@ -24,7 +27,7 @@ public class PersonOps {
         }
         if (wants_accomodation == "") {
 
-            person.setDefaultAccomodation("N");
+            System.out.println("Does not want accomodation");
 
         } else {
 
@@ -35,6 +38,10 @@ public class PersonOps {
         person.setCategory(category);
         person.setRoomAllocation(roomName);
         peopleList.add(person);
+
+        for (int i = 0; i < peopleList.size(); i++) {
+            System.out.println(peopleList.get(i).getName().toString() +" "+ peopleList.get(i).getCategory().toString());
+        }
 
 
         return peopleList;
@@ -63,7 +70,7 @@ public class PersonOps {
         }
 
     }
-
+    /* Method reallocates person from one room to another */
     public String reallocatePersonRoom(String personName, String newRoom) {
 
         int personIndex = 0;
