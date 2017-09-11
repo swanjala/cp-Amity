@@ -1,12 +1,12 @@
 package com.app;
 
 import org.junit.Test;
-import com.app.PersonOps;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class PersonTest {
 
@@ -27,7 +27,7 @@ public class PersonTest {
     @Test
     public void test_that_a_person_has_been_added_successfully() {
 
-        peopleList = person.addPerson("SAMMY WANJALA", "FELLOW", "Y", "VALHALLA");
+        peopleList = person.addPerson("SAMMY WANJALA", "FELLOW", "Y");
 
         assertEquals(peopleList.get(0).getName(), "SAMMY WANJALA");
     }

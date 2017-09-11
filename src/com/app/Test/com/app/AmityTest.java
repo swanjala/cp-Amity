@@ -19,8 +19,10 @@ public class AmityTest {
     @Test
     public void test_that_function_can_save_state(){
 
-        message = amity.saveState(personList,roomList);
-        assertEquals(message,true);
+//        message = amity.saveState(personList,roomList);
+//        assertEquals(message,true);
+
+        fail();
     }
 
     /* Test that application can load state */

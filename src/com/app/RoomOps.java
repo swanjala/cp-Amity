@@ -1,6 +1,5 @@
 package com.app;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import java.util.List;
 
 public class RoomOps extends Person {
 
-    private List<Room> roomList = new ArrayList<Room>();
+    public List<Room> roomList = new ArrayList<Room>();
     private int capacity = 0;
     private String message;
 
