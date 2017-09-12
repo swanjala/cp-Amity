@@ -147,7 +147,9 @@ public class Home {
 
             }
             if (navContent.contains("Save State")) {
-                /* Save State Logic */
+                dbModels models = new dbModels();
+                models.saveState(dbName);
+
             }
             if (navContent.contains("Load state")) {
                 /* Load State Logic*/
