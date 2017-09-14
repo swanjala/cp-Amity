@@ -1,18 +1,20 @@
 package com.app;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * Class that manages the data and functionality
  * of rooms
  */
-public class Room extends Person {
+public class Room {
 
     private List<String> roomNameList;
     private String roomName;
     private String category;
     private int capacity = 0;
     private List<String> room_occupants = new ArrayList<String>();
+    public Collection<List<Room>> roomInfo = new ArrayList<List<Room>>();
 
 
     public void Room (){
@@ -20,6 +22,7 @@ public class Room extends Person {
     }
 
     /* Set room name */
+
     public void setRoomName(String roomName) {
 
        this.roomName = roomName;
@@ -37,6 +40,16 @@ public class Room extends Person {
 
         this.category = roomCategory;
     }
+    public void setRoomAllocation(String roomName){
+
+        this.roomName = roomName;
+    }
+    public void setRoomInfo (Collection <List<Room>> roomInfo){
+        this.roomInfo.equals(roomInfo);
+    }
+    public Collection <List<Room>> getRoomInfo(){
+        return roomInfo;
+    }
 
     /* Get room name*/
     public String getRoomName() {
@@ -50,9 +63,14 @@ public class Room extends Person {
     }
 
     /* Get room capacity*/
-    public int roomCapacity(){
+    public int getRoomCapacity(){
 
         return capacity;
+    }
+
+    public String getRoomAllocation(){
+
+        return roomName;
     }
 
 }
