@@ -7,20 +7,22 @@ import java.util.List;
  * Class that conatains all the functionalities arounf people in Amity
  */
 
-public class PersonOps {
+public class PersonOps extends RoomOps {
 
     public  List<Person> peopleList =  new ArrayList<Person>();
     private List<String> Unallocated = new ArrayList<String>();
     private Person person = new Person();
     private StringBuilder sb = new StringBuilder();
     private List<Room> roomList = new ArrayList<Room>();
+    Room room = new Room();
 
-
-    public PersonOps(String name,String category, String roomName){
+    public PersonOps(String name,String category, String wantsAccomodation, String roomAllocatedName){
 
         person.setName(name);
         person.setCategory(category);
-        person.setRoomAllocation(roomName);
+        person.setAccomodationRequest("Y");
+        person.setAccomodationRoom(roomAllocatedName);
+
 
     }
 
@@ -29,7 +31,7 @@ public class PersonOps {
     public PersonOps(String personName,String newRoom){
 
         person.setName(personName);
-        person.setRoomAllocation(newRoom);
+        person.setAccomodationRoom(newRoom);
 
     }
 
@@ -42,6 +44,8 @@ public class PersonOps {
         peopleList.add(person);
         return peopleList;
     }
+
+
    /* Method returns the list of pe ople who are saved in the application*/
 
     public String printPeople(List<Person> peopleList) {
@@ -49,7 +53,7 @@ public class PersonOps {
         for (Person peopleData:peopleList
              ) {
             sb.append(" "+peopleData.getName()+" "+ peopleData.getCategory()+
-                    peopleData.getAccomodation()+"\n");
+                    peopleData.getAccomodationRequest()+" " +peopleData.getAccomodationRoom());
         }
 
         return sb.toString();
@@ -60,7 +64,7 @@ public class PersonOps {
 
         for (int i = 0; i < peopleList.size() ; i++) {
 
-            if (peopleList.get(i).getAccomodation()==""){
+            if (peopleList.get(i).getAccomodationRoom()==""){
                 System.out.println(peopleList.get(i).getName() + "\n");
             }
         }
@@ -84,12 +88,12 @@ public class PersonOps {
             if (roomList.get(personIndex).toString() == person.getName()) {
 
 
-                if (roomList.get(roomIndex).toString() == person.getAccomodation()) {
+                if (roomList.get(roomIndex).toString() == person.getAccomodationRoom()) {
                     message = "Cannot reallocate to the the same room";
                     return message;
                 }
 
-                peopleList.get(personIndex).setRoomAllocation(person.getRoomName());
+              //  peopleList.get(personIndex).setAccomodationRoom(roomName);
 
             }
 
