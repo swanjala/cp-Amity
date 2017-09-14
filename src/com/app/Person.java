@@ -8,19 +8,10 @@ import java.util.List;
 
 public class Person {
 
-
     private String name,category,roomName;
     private String wants_accomodation;
     List <String> personList = new ArrayList<String>();
 
-    public void  Person(String name, String category, String wants_accomodation, String roomName){
-
-        setName(name);
-        setCategory(category);
-        setAccomodation(wants_accomodation);
-        setRoomAllocation(roomName);
-
-    }
 
     public void setName(String name){
 
@@ -62,6 +53,5 @@ public class Person {
 
         return wants_accomodation;
     }
-
 
 }
