@@ -14,10 +14,9 @@ public class Home {
     private static String nav = "";
     private static String navContent = "";
     private static Scanner input;
-    private static RoomOps room = new RoomOps();
     private static List<Person> personList = new ArrayList<>();
     private static Collection<List<Person>> personInfo = new ArrayList<List<Person>>();
-
+    private static Collection<List<Room>> roomInfo = new ArrayList<List<Room>>();
 
     private static String start() {
 
@@ -25,13 +24,12 @@ public class Home {
                 "++++++++++++++++++++++++++ \n" +
                 "Add Person <Name> <Category> <Wants Accomodation> \n" +
                 "Add Room <Room Name> ... \n" +
-                "Reallocate <Name> <New Room Name> \n" +
+                "Reallocate <Name> <New Room N`ame> \n" +
                 "Save State <dbName> \n" +
                 "Load State <dbName>\n" +
                 "Enter 'quit' to exit";
 
         return startText;
-
     }
 
     /* String tokenizer with a space delimeter : Takes in add person user input
@@ -43,28 +41,48 @@ public class Home {
 
         List<Person> addPersonVarObject = new ArrayList<Person>();
         Person personVars = new Person();
+        Random random = new Random();
+        int index = random.nextInt(roomInfo.size());
 
         StringTokenizer addPersonST = new StringTokenizer(addPersonInput.substring(10), " ");
         StringBuilder nameSb = new StringBuilder();
 
         while (addPersonST.hasMoreTokens()) {
 
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 2; i++) {
 
                 String nameVal = addPersonST.nextToken();
-                nameSb.append(" " + nameVal);
+                nameSb.append(nameVal + " ");
             }
 
             String Category = addPersonST.nextToken();
-
-            personVars.setName(nameSb.toString());
-            personVars.setCategory(Category.toString());
-
-            addPersonVarObject.add(personVars);
+            String accomodation = addPersonST.nextToken();
+            personVars.setName(nameSb.toString().trim());
+            personVars.setCategory(Category);
+            personVars.setAccomodationRequest(accomodation);
 
         }
 
+        Iterator<List<Room>> itr = roomInfo.iterator();
+
+        List<Room> list = null;
+        List<Room> randomizedList = null;
+        while (itr.hasNext()) {
+            list = itr.next();
+        }
+
+        randomizedList = shuffleBox(list);
+        String value = randomizedList.get(0).getRoomAllocation();
+
+        personVars.setAccomodationRoom(value);
+        addPersonVarObject.add(personVars);
         return addPersonVarObject;
+    }
+
+    private static List<Room> shuffleBox(List<Room> list) {
+
+        Collections.shuffle(list);
+        return list;
     }
 
     private static List<Room> addRoomTokenizer(String addRoomInput) {
@@ -73,24 +91,18 @@ public class Home {
         List<String> roomList = new ArrayList<String>();
         Room roomVars = new Room();
 
-        StringTokenizer addRoomST = new StringTokenizer(addRoomInput.substring(10), " ");
-        StringBuilder roomNameSb = new StringBuilder();
-
+        StringTokenizer addRoomST = new StringTokenizer(addRoomInput.substring(9), " ");
+        StringBuilder roomSB = new StringBuilder();
         while (addRoomST.hasMoreTokens()) {
 
-            for (int i = 0; i < 1; i++) {
-                String RoomCategory = addRoomST.nextToken();
-                roomVars.setRoomCategory(RoomCategory.toString());
-            }
-
             String RoomNameVal = addRoomST.nextToken();
+            String RoomCategory = addRoomST.nextToken();
 
-            roomList.add(RoomNameVal);
+            roomVars.setRoomName(RoomNameVal.toString());
+            roomVars.setRoomCategory(RoomCategory.toString());
 
-        }
-        for (int i = 0; i < roomList.size(); i++) {
-            roomVars.setRoomName(roomList.get(i).toString());
             addRoomVarObject.add(roomVars);
+
         }
 
         return addRoomVarObject;
@@ -147,24 +159,46 @@ public class Home {
 
                 List<Person> varList = addPersonTokenizer(nav);
 
-                PersonOps person = new PersonOps(varList.get(0).getName(), varList.get(0).getCategory()
-                        , "N");
+                PersonOps personOps = new PersonOps(varList.get(0).getName(), varList.get(0).getCategory()
+                        , varList.get(0).getAccomodationRequest(), varList.get(0).getAccomodationRoom());
 
-                List<Person> pData = person.addPerson();
+                List<Person> pData = personOps.addPerson();
                 personInfo.add(pData);
+
+                System.out.println(pData.get(0).getName() + pData.get(0).getAccomodationRoom());
                 Iterator<List<Person>> itr = personInfo.iterator();
 
                 while (itr.hasNext()) {
                     List<Person> element = itr.next();
-                    System.out.println(element.get(0).getName());
+                    System.out.println(element.get(0).getName() + " " +
+                            "" + element.get(0).getAccomodationRoom());
                 }
 
             }
             if (navContent.contains("Add Room")) {
 
                 List<Room> roomVarList = addRoomTokenizer(nav);
-                System.out.println(roomVarList.get(1).toString());
-                room.addRoom(roomVarList.get(0).toString(), roomVarList.get(1).toString());
+
+                RoomOps room = new RoomOps(roomVarList.get(0).getRoomName(), roomVarList.get(0).getRoomCategory());
+                List<Room> newRoom = room.addRoom();
+                roomInfo.add(newRoom);
+                room.setRoomInfo(roomInfo);
+
+                System.out.println(roomInfo.size());
+
+                Iterator<List<Room>> roomItr = roomInfo.iterator();
+
+
+                while (roomItr.hasNext()) {
+                    List<Room> roomElements = roomItr.next();
+
+                    for (int i = 0; i < roomElements.size(); i++) {
+                        System.out.println(roomElements.get(i).getRoomName() + " " +
+                                "" + roomElements.get(i).getRoomCategory() + " " +
+                                "" + roomElements.get(i).getRoomCapacity());
+                    }
+
+                }
 
             }
             if (navContent.contains("Reallocate")) {
