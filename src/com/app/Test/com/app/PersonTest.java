@@ -11,6 +11,7 @@ import static org.junit.Assert.fail;
 public class PersonTest {
 
     PersonOps person = new PersonOps();
+    PersonOps reallocatePerson = new PersonOps("SAMMY WANJALA","FELLOW","Y", "NARNIA");
     private String genericMessage;
     private Person personData = new Person();
     private List<Person> peopleList = new ArrayList<Person>();
@@ -19,7 +20,7 @@ public class PersonTest {
 
         personData.setName("SAMMY WANJALA");
         personData.setCategory("FELLOW");
-        personData.setRoomAllocation("VALHALLA");
+        personData.setAccomodationRoom("NARNIA");
         peopleList.add(personData);
 
     }
@@ -27,7 +28,7 @@ public class PersonTest {
     @Test
     public void test_that_a_person_has_been_added_successfully() {
 
-        peopleList = person.addPerson("SAMMY WANJALA", "FELLOW", "Y");
+        peopleList = person.addPerson();
 
         assertEquals(peopleList.get(0).getName(), "SAMMY WANJALA");
     }
@@ -35,7 +36,7 @@ public class PersonTest {
     @Test
     public void test_that_fellow_has_been_reallocated_successfully() {
 
-        String reallocationMessage = person.reallocatePersonRoom("SAMMY WANJALA", "NARNIA");
+        String reallocationMessage = person.reallocatePersonRoom();
         assertEquals(reallocationMessage,"Reallocation successful");
 
     }
