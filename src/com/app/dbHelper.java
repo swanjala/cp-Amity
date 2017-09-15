@@ -38,7 +38,7 @@ public class dbHelper {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection(url);
             statement = connection.createStatement();
-            sqlStatement = "CREATE TABLE PERSON(NAME TEXT NOT NULL, CATEGORY TEXT NOT NULL,WANTS_ACCOMODATION TEXT NOT NULL)";
+            sqlStatement = "CREATE TABLE PEOPLE(NAME TEXT NOT NULL, CATEGORY TEXT NOT NULL,ACCOMODATION TEXT NOT NULL)";
             statement.execute(sqlStatement);
             message = "People table created successfully";
 
