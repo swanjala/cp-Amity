@@ -11,7 +11,7 @@ import static org.junit.Assert.fail;
 public class PersonTest {
 
     PersonOps person = new PersonOps();
-    PersonOps reallocatePerson = new PersonOps("SAMMY WANJALA","Y", "NARNIA");
+    PersonOps reallocatePerson = new PersonOps("SAMMY WANJALA","FELLOW","Y", "NARNIA");
     private String genericMessage;
     private Person personData = new Person();
     private List<Person> peopleList = new ArrayList<Person>();
@@ -20,7 +20,7 @@ public class PersonTest {
 
         personData.setName("SAMMY WANJALA");
         personData.setCategory("FELLOW");
-        personData.setRoomAllocation("VALHALLA");
+        personData.setAccomodationRoom("NARNIA");
         peopleList.add(personData);
 
     }
