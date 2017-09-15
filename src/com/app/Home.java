@@ -3,15 +3,19 @@ package com.app;
 import java.sql.SQLException;
 import java.util.*;
 
-
 /**
- * Main class where the entire application is run from.
- * the class generates a Command Line user interface.
+ * Home class.
+ * This class runs the application. It contains methods that invoke the respective
+ * features that the application relies on for the management of Amity.
+ * The class generates a Command Line User Interface where the user interracts with
+ * the applcation as described in the Start Text.
+ *
  */
+
 public class Home {
 
     private static String startText;
-    private static String nav = "";
+    private static String navigationString = "";
     private static String navContent = "";
     private static Scanner input;
     private static List<Person> personList = new ArrayList<>();
@@ -24,7 +28,7 @@ public class Home {
                 "++++++++++++++++++++++++++ \n" +
                 "Add Person <Name> <Category> <Wants Accomodation> \n" +
                 "Add Room <Room Name> ... \n" +
-                "Reallocate <Name> <New Room N`ame> \n" +
+                "Reallocate <Name> <New Room Name> \n" +
                 "Save State <dbName> \n" +
                 "Load State <dbName>\n" +
                 "Enter 'quit' to exit";
@@ -117,21 +121,30 @@ public class Home {
     * and isolates the command
     * */
 
-    private static List<String> reallocateRoomTokenizer(String reallocateRoomInput) {
+    private static String[] reallocateRoomTokenizer(String reallocateRoomInput) {
 
-        List<String> reallocateVarObj = new ArrayList<String>();
+        String [] reallocateVarArray = new String[2];
+
 
         StringTokenizer reallocateST = new StringTokenizer(reallocateRoomInput.substring(10), " ");
+        StringBuilder nameString = new StringBuilder();
 
         while (reallocateST.hasMoreTokens()) {
-            String personName = reallocateST.nextToken();
+            for (int i = 0; i < 2; i++) {
+                String nameVal = reallocateST.nextToken();
+                nameString.append(nameVal + " ");
+
+            }
+            String personName = nameString.toString().trim();
             String newRoomName = reallocateST.nextToken();
 
-            reallocateVarObj.add(personName);
-            reallocateVarObj.add(newRoomName);
+
+
+            reallocateVarArray[0] = personName;
+            reallocateVarArray[1] = newRoomName;
         }
 
-        return reallocateVarObj;
+        return reallocateVarArray;
     }
 
     /* Method picks up the database name after the save and load state command and
@@ -157,12 +170,15 @@ public class Home {
 
 
         do {
-            nav = input.nextLine();
-            navContent = nav.substring(0, 12);
+            navigationString = input.nextLine();
+
+            if (navigationString.length() > 12) {
+                navContent = navigationString.substring(0, 12);
+            }
 
             if (navContent.contains("Add Person")) {
 
-                List<Person> varList = addPersonTokenizer(nav);
+                List<Person> varList = addPersonTokenizer(navigationString);
 
                 PersonOps personOps = new PersonOps(varList.get(0).getName(), varList.get(0).getCategory()
                         , varList.get(0).getAccomodationRequest(), varList.get(0).getAccomodationRoom());
@@ -182,7 +198,7 @@ public class Home {
             }
             if (navContent.contains("Add Room")) {
 
-                List<Room> roomVarList = addRoomTokenizer(nav);
+                List<Room> roomVarList = addRoomTokenizer(navigationString);
 
                 RoomOps room = new RoomOps(roomVarList.get(0).getRoomName(), roomVarList.get(0).getRoomCategory());
                 List<Room> newRoom = room.addRoom();
@@ -206,15 +222,25 @@ public class Home {
                 }
 
             }
-            if (navContent.contains("Reallocate")) {
+            if (navigationString.contains("Reallocate")) {
 
-                List<String> roomVars = reallocateRoomTokenizer(nav);
-                PersonOps person = new PersonOps(roomVars.get(0).toString(), roomVars.get(1).toString());
+                String [] roomVars = reallocateRoomTokenizer(navigationString);
+
+                Iterator<List<Person>> itr = personInfo.iterator();
+
+                while (itr.hasNext()) {
+                    List<Person> element = itr.next();
+
+                    if (element.get(0).getName().equals(roomVars[0].trim())){
+                        element.get(0).setAccomodationRoom(roomVars[1]);
+
+                    }
+                }
 
             }
             if (navContent.contains("Save State")) {
 
-                List<String> dbName = saveLoadStateTokenizer(nav);
+                List<String> dbName = saveLoadStateTokenizer(navigationString);
 
                 dbModels models = new dbModels();
                 models.saveState(dbName.toString());
@@ -222,7 +248,7 @@ public class Home {
             }
             if (navContent.contains("Load state")) {
 
-                List<String> dbName = saveLoadStateTokenizer(nav);
+                List<String> dbName = saveLoadStateTokenizer(navigationString);
 
                 dbModels models = new dbModels();
                 models.loadState(dbName.toString());
@@ -230,7 +256,7 @@ public class Home {
             } else {
                 System.out.println("Enter Correct Commands, see description for help");
             }
-        } while (!nav.equals("quit"));
+        } while (!navigationString.equals("quit"));
 
         System.exit(0);
 
