@@ -7,9 +7,8 @@ import java.util.*;
  * Home class.
  * This class runs the application. It contains methods that invoke the respective
  * features that the application relies on for the management of Amity.
- * The class generates a Command Line User Interface where the user interracts with
+ * The class generates a Commandline User Interface where the user interracts with
  * the applcation as described in the Start Text.
- *
  */
 
 public class Home {
@@ -24,11 +23,11 @@ public class Home {
 
     private static String start() {
 
-        startText = "Welcome to Amity \n" +
+        startText = "WELCOME TO AMITY \n" +
                 "++++++++++++++++++++++++++ \n" +
-                "Add Person <Name> <Category> <Wants Accomodation> \n" +
+                "Add Person <First Name> <Second Name> <Category> <Wants Accomodation> \n" +
                 "Add Room <Room Name> ... \n" +
-                "Reallocate <Name> <New Room Name> \n" +
+                "Reallocate <First Name> <Second Name> <New Room Name> \n" +
                 "Save State <dbName> \n" +
                 "Load State <dbName>\n" +
                 "Enter 'quit' to exit";
@@ -36,19 +35,19 @@ public class Home {
         return startText;
     }
 
-    /* String tokenizer with a space delimeter : Takes in add person user input
-     * and parses user defined variables into an array of  variables
-     * of type Person
+    /**
+     * addPersonTokenizer: This method uses a space delimiter to break
+     * down an input String entered in Commandline User Interface and parses
+     * it into an array of usablevariables that adds a person to the application.
      */
 
     private static List<Person> addPersonTokenizer(String addPersonInput) {
 
         List<Person> addPersonVarObject = new ArrayList<Person>();
         Person personVars = new Person();
-        Random random = new Random();
-
         StringTokenizer addPersonST = new StringTokenizer(addPersonInput.substring(10), " ");
         StringBuilder nameSb = new StringBuilder();
+        Iterator<List<Room>> itr = roomInfo.iterator();
 
         while (addPersonST.hasMoreTokens()) {
 
@@ -56,6 +55,7 @@ public class Home {
 
                 String nameVal = addPersonST.nextToken();
                 nameSb.append(nameVal + " ");
+
             }
 
             String Category = addPersonST.nextToken();
@@ -66,11 +66,10 @@ public class Home {
 
         }
 
-        Iterator<List<Room>> itr = roomInfo.iterator();
-
-        List<Room> list = null;
+        List<Room> list;
         List<String> roomNames = new ArrayList<>();
-        String randomizedName = null;
+        String randomizedName;
+
         while (itr.hasNext()) {
 
             list = itr.next();
@@ -79,11 +78,22 @@ public class Home {
         }
 
         randomizedName = shuffleBox(roomNames);
-
         personVars.setAccomodationRoom(randomizedName);
         addPersonVarObject.add(personVars);
         return addPersonVarObject;
     }
+
+    /**
+     * shuffleBox : Generates a room at random when a person is added to the
+     * application for the firsttime.
+     * It takes in a List of rooms, generates a random
+     * index , references a random room in the list and returns
+     * it
+     * application
+     *
+     * @param list
+     * @return
+     */
 
     private static String shuffleBox(List<String> list) {
 
@@ -94,21 +104,27 @@ public class Home {
 
     }
 
+    /**
+     * addRoomTokenizer: This method uses a space delimiter to break
+     * down an input String entered in a Commandline User Interface
+     * and parses it into an array of usable variables that adds a
+     * new room to the application.
+     */
+
     private static List<Room> addRoomTokenizer(String addRoomInput) {
 
         List<Room> addRoomVarObject = new ArrayList<Room>();
-        List<String> roomList = new ArrayList<String>();
         Room roomVars = new Room();
 
         StringTokenizer addRoomST = new StringTokenizer(addRoomInput.substring(9), " ");
-        StringBuilder roomSB = new StringBuilder();
+
         while (addRoomST.hasMoreTokens()) {
 
             String RoomNameVal = addRoomST.nextToken();
             String RoomCategory = addRoomST.nextToken();
 
-            roomVars.setRoomName(RoomNameVal.toString());
-            roomVars.setRoomCategory(RoomCategory.toString());
+            roomVars.setRoomName(RoomNameVal);
+            roomVars.setRoomCategory(RoomCategory);
 
             addRoomVarObject.add(roomVars);
 
@@ -117,13 +133,17 @@ public class Home {
         return addRoomVarObject;
     }
 
-    /* Method takes in user input and returns a list of Variables
-    * and isolates the command
-    * */
+    /**
+     * reallocationTokenizer: This method uses a space delimiter to break
+     * down an input String entered in a Commandline User Interface
+     * and parses it into an array of usable string variables that moves
+     * a user from their initially assigned room to a new
+     * room in the application.
+     */
 
     private static String[] reallocateRoomTokenizer(String reallocateRoomInput) {
 
-        String [] reallocateVarArray = new String[2];
+        String[] reallocateVarArray = new String[2];
 
 
         StringTokenizer reallocateST = new StringTokenizer(reallocateRoomInput.substring(10), " ");
@@ -139,7 +159,6 @@ public class Home {
             String newRoomName = reallocateST.nextToken();
 
 
-
             reallocateVarArray[0] = personName;
             reallocateVarArray[1] = newRoomName;
         }
@@ -147,9 +166,12 @@ public class Home {
         return reallocateVarArray;
     }
 
-    /* Method picks up the database name after the save and load state command and
-    * assigns it to a String variable
-    * */
+    /**
+     * addRoomTokenizer: This method uses a space delimiter to break down an
+     * input String entered in a Commandline User Interface and parses it
+     * into a list of usable string variables that picks up a database name
+     * and assigns it to a String variables.
+     */
 
     private static List<String> saveLoadStateTokenizer(String saveStateInput) {
 
@@ -224,14 +246,14 @@ public class Home {
             }
             if (navigationString.contains("Reallocate")) {
 
-                String [] roomVars = reallocateRoomTokenizer(navigationString);
+                String[] roomVars = reallocateRoomTokenizer(navigationString);
 
                 Iterator<List<Person>> itr = personInfo.iterator();
 
                 while (itr.hasNext()) {
                     List<Person> element = itr.next();
 
-                    if (element.get(0).getName().equals(roomVars[0].trim())){
+                    if (element.get(0).getName().equals(roomVars[0].trim())) {
                         element.get(0).setAccomodationRoom(roomVars[1]);
 
                     }
