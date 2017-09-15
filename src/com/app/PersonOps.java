@@ -10,11 +10,8 @@ import java.util.List;
 public class PersonOps extends RoomOps {
 
     public  List<Person> peopleList =  new ArrayList<Person>();
-    private List<String> Unallocated = new ArrayList<String>();
     private Person person = new Person();
     private StringBuilder sb = new StringBuilder();
-    private List<Room> roomList = new ArrayList<Room>();
-    Room room = new Room();
 
     public PersonOps(String name,String category, String wantsAccomodation, String roomAllocatedName){
 
@@ -25,17 +22,16 @@ public class PersonOps extends RoomOps {
 
 
     }
-
     /* Overload constractor with reallocation variables */
+
+    public PersonOps() {
+
+    }
 
     public PersonOps(String personName,String newRoom){
 
         person.setName(personName);
         person.setAccomodationRoom(newRoom);
-
-    }
-
-    public PersonOps() {
 
     }
 
@@ -70,36 +66,5 @@ public class PersonOps extends RoomOps {
         }
 
     }
-    /* Method reallocates person from one room to another */
-    public String reallocatePersonRoom() {
 
-        int personIndex = 0;
-        int roomIndex = 1;
-        String message ="Reallocation successful";
-
-        if (roomList.size() == 0) {
-            message = " No rooms to reallocate";
-            return message;
-        }
-
-        for (Room roomData: roomList
-             ) {
-
-            if (roomList.get(personIndex).toString() == person.getName()) {
-
-
-                if (roomList.get(roomIndex).toString() == person.getAccomodationRoom()) {
-                    message = "Cannot reallocate to the the same room";
-                    return message;
-                }
-
-              //  peopleList.get(personIndex).setAccomodationRoom(roomName);
-
-            }
-
-        }
-
-        return message;
-
-    }
 }
