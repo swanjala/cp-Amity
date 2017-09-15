@@ -46,8 +46,6 @@ public class dbModels {
         initializeDb(dbName);
 
         String dbUrl = "jdbc:sqlite:" + dbName + ".db";
-
-        peopleData = personOps.peopleList;
         roomData = roomOps.roomList;
         String[] savePeopleSqlStatement = new String[1000];
         String[] saveRoomSqlStatement = new String[1000];
@@ -59,7 +57,7 @@ public class dbModels {
             savePeopleSqlStatement[index] = "INSERT INTO TABLE PERSON(NAME, CATEGORY, WANTS ACCOMODATION)" +
                     "VALUES(" + peopleData.get(index).getName() + "," +
                     "" + peopleData.get(index).getCategory() + "," +
-                    "" + peopleData.get(index).getAccomodation() + "," + ")";
+                    "" + peopleData.get(index).getAccomodationRoom() + "," + ")";
         }
 
         for (int index = 0; index < roomData.size(); index++) {

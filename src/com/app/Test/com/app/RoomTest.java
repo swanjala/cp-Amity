@@ -1,73 +1,76 @@
  package com.app;
 
- import org.junit.Test;
- import com.app.RoomOps;
+ import org.junit.Rule;
+import org.junit.Test;
+import org.junit.contrib.java.lang.system.SystemOutRule;
 
+import java.io.ByteArrayOutputStream;
+ import java.util.Collection;
+ import java.util.List;
 
-    import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-public class RoomTest {
+ public class RoomTest {
     private String officeMessage,livingRoomMessage,genericMessage;
+    private ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     String[] room_data;
     String[] office_data;
     String message;
 
-    RoomOps room = new RoomOps();
-
+    RoomOps room = new RoomOps("","");
 
     public void setUp() {
 
 
     }
 
+    @Rule
+    public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
+
+
     @Test
-    public void test_correct_response_when_no_data_is_entered() {
+    public void test_that_no_room_is_added_when_no_data_is_entered() {
 
-		/* A specific value should be returned whn*/
+        int intiaListSize = room.roomList.size();
+        RoomOps room = new RoomOps("","");
 
-		officeMessage = room.addRoom("","");
-        assertEquals(officeMessage, "There's no room to be saved");
+         room.addRoom();
+         int newsize = room.roomList.size();
+
+        assertEquals(newsize-intiaListSize, 0);
 
     }
 
     @Test
-    public void test_that_a_working_space_has_been_created_successfully() {
+    public void test_that_rooms_should_be_added_before_allocation(){
 
-        officeMessage = room.addRoom("VALHALLA","OFFICE");
-        assertEquals(officeMessage, "New room has been added");
-
-    }
-
-    @Test
-
-    public void test_that_a_new_living_area_has_been_created_successfully() {
-
-        livingRoomMessage = room.addRoom("SHELL","LIVING");
-        assertEquals(livingRoomMessage, "New room has been added");
+        PersonOps person = new PersonOps("SAMMY WANJALA","FELLOW","VALHALLA","Y");
+        person.addPerson();
+        assertEquals("Add Rooms Before Allocating", systemOutRule.getLog().trim());
 
     }
 
     @Test
-    public void test_that_all_living_rooms_are_occupied() {
+    public void test_that_a_space_has_been_created_successfully_as_last_element() {
 
-        genericMessage = room.addRoom("JADE","OFFICE");
-        assertEquals(genericMessage, "All rooms are occupied");
+        RoomOps ops = new RoomOps("VALHALLA","OFFICE");
+        Collection<List<Room>> newList =  ops.roomInfo;
+        int index = newList.size();
+
+        assertEquals(newList.iterator().next().get(index).getRoomName(), "VALHALLA");
+
     }
+
 
     @Test
     public void test_that_the_room_being_assigned_is_of_correct_type() {
 
-        genericMessage = room.addRoom("ROUND TABLE","MEETING ROOM");
-        assertEquals(officeMessage,"This room category does not exist");
-    }
-
-    @Test
-    public void test_print_room_of_same_type_is_available(){
-
-        genericMessage = room.printRoom("VALHALLA");
-        assertEquals(genericMessage,"Room Unoccupied");
+        RoomOps ops = new RoomOps("VALHALLA","MEETING ROOM");
+        assertEquals("Enter Correct Room type ==> OFFICE : LIVING", systemOutRule.getLog().trim());
 
     }
+
 
 
 }

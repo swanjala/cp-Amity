@@ -1,58 +1,48 @@
 package com.app;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Class containing all the room functional operations.
  *
  */
 
+public class RoomOps extends Room {
 
-public class RoomOps extends Person {
-
+    ArrayList<List<Room>> roomListData = new ArrayList<List<Room>>();
     public List<Room> roomList = new ArrayList<Room>();
     private int capacity = 0;
     private String message;
+    private Room room = new Room();
 
 	/* Method that adds a new room to the application*/
 
-    public String addRoom(String roomName, String roomCategory){
+	public RoomOps(){
 
-        String message = "New room has been added";
+    }
+    public RoomOps(String roomName, String roomCategory) {
 
-        Room room = new Room();
+            room.setRoomName(roomName);
+            room.setRoomCategory(roomCategory);
 
-        room.setRoomName(roomName);
-        room.setCategory(roomCategory);
 
-        if (roomCategory =="OFFICE") {
-            capacity = 6;
+            if (roomCategory.trim().equals("OFFICE")) {
 
-            room.setCapacity(capacity);
+                room.setCapacity(4);
 
-        }else if(roomCategory=="LIVING"){
-            capacity = 4;
+            } else if(roomCategory.trim().equals("LIVING")) {
 
-            room.setCapacity(capacity);
+                room.setCapacity(6);
 
-        } else {
-            message = "This room category does not exist";
-            return message;
+            }else {
+                room.setCapacity(0);
+            }
         }
 
-        room.setRoomName(roomName);
-        room.setCategory(roomCategory);
-        room.setCapacity(capacity);
+    public List<Room> addRoom(){
+
         roomList.add(room);
-
-        return message;
+        return roomList;
     }
-
-    public String printRoom(String roomName){
-
-        return message;
-    }
-
 
 }
