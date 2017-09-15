@@ -169,19 +169,21 @@ public class Home {
     /**
      * addRoomTokenizer: This method uses a space delimiter to break down an
      * input String entered in a Commandline User Interface and parses it
-     * into a list of usable string variables that picks up a database name
-     * and assigns it to a String variables.
+     * to a String value set as a database name.
      */
 
-    private static List<String> saveLoadStateTokenizer(String saveStateInput) {
+    private static String saveLoadStateTokenizer(String saveStateInput) {
 
         List<String> saveLoadStateParamList = new ArrayList<String>();
         StringTokenizer saveStateST = new StringTokenizer(saveStateInput.substring(10), " ");
+        StringBuilder dbnameSB = new StringBuilder();
 
         while (saveStateST.hasMoreTokens()) {
             String databaseName = saveStateST.nextToken();
+            dbnameSB.append(databaseName);
         }
-        return saveLoadStateParamList;
+
+        return dbnameSB.toString() ;
 
     }
 
@@ -260,20 +262,20 @@ public class Home {
                 }
 
             }
-            if (navContent.contains("Save State")) {
+            if (navigationString.contains("Save State")) {
 
-                List<String> dbName = saveLoadStateTokenizer(navigationString);
+                String dbName = saveLoadStateTokenizer(navigationString);
 
                 dbModels models = new dbModels();
-                models.saveState(dbName.toString());
+                models.saveState(dbName,personInfo,roomInfo);
 
             }
             if (navContent.contains("Load state")) {
 
-                List<String> dbName = saveLoadStateTokenizer(navigationString);
+                String dbName = saveLoadStateTokenizer(navigationString);
 
                 dbModels models = new dbModels();
-                models.loadState(dbName.toString());
+                models.loadState(dbName);
 
             } else {
                 System.out.println("Enter Correct Commands, see description for help");
