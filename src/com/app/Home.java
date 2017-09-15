@@ -42,7 +42,6 @@ public class Home {
         List<Person> addPersonVarObject = new ArrayList<Person>();
         Person personVars = new Person();
         Random random = new Random();
-        int index = random.nextInt(roomInfo.size());
 
         StringTokenizer addPersonST = new StringTokenizer(addPersonInput.substring(10), " ");
         StringBuilder nameSb = new StringBuilder();
@@ -66,23 +65,29 @@ public class Home {
         Iterator<List<Room>> itr = roomInfo.iterator();
 
         List<Room> list = null;
-        List<Room> randomizedList = null;
+        List<String> roomNames = new ArrayList<>();
+        String randomizedName = null;
         while (itr.hasNext()) {
+
             list = itr.next();
+            roomNames.add(list.get(0).getRoomName());
+
         }
 
-        randomizedList = shuffleBox(list);
-        String value = randomizedList.get(0).getRoomAllocation();
+        randomizedName = shuffleBox(roomNames);
 
-        personVars.setAccomodationRoom(value);
+        personVars.setAccomodationRoom(randomizedName);
         addPersonVarObject.add(personVars);
         return addPersonVarObject;
     }
 
-    private static List<Room> shuffleBox(List<Room> list) {
+    private static String shuffleBox(List<String> list) {
 
-        Collections.shuffle(list);
-        return list;
+        Random randValue = new Random();
+        int index = randValue.nextInt(list.size());
+
+        return list.get(index);
+
     }
 
     private static List<Room> addRoomTokenizer(String addRoomInput) {
