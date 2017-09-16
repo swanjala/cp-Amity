@@ -1,9 +1,12 @@
 package com.app;
 
+import java.io.InputStream;
+import java.io.Reader;
+import java.math.BigDecimal;
+import java.net.URL;
 import java.sql.*;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.sql.Date;
+import java.util.*;
 
 /**
  * Database class that executes database commands to save and load Amity state
@@ -12,7 +15,7 @@ import java.util.List;
 public class dbModels {
 
     private Connection connection;
-    private Statement statement ;
+    private Statement statement;
     private String message = null;
     private PersonOps personOps = new PersonOps();
     private dbHelper dHelper = new dbHelper();
@@ -21,11 +24,10 @@ public class dbModels {
     private Room room = new Room();
 
     /**
-     *  Invokes the database helper class
-     *
+     * Invokes the database helper class
      **/
 
-    public void initializeDb(String dbName){
+    public void initializeDb(String dbName) {
         dHelper.createDB(dbName);
         dHelper.createPeopleTable(dbName);
         dHelper.createRoomTable(dbName);
@@ -33,14 +35,13 @@ public class dbModels {
 
     /**
      * Method that saves Room and Person app data state to database
-     *
-     * */
+     */
 
-    public String saveState(String dbName, Collection<List<Person>> personData,Collection<List<Room>> roomData)
+    public String saveState(String dbName, Collection<List<Person>> personData, Collection<List<Room>> roomData)
             throws SQLException, ClassNotFoundException {
 
         initializeDb(dbName); //Initialize DB
-        String savePeopleSqlStatement ="";
+        String savePeopleSqlStatement = "";
         String saveRoomSqlStatement = "";
 
         String dbUrl = "jdbc:sqlite:" + dbName + ".db";
@@ -59,11 +60,11 @@ public class dbModels {
 
             for (int index = 0; index < personLists.size(); index++) {
 
-                 savePeopleSqlStatement = "INSERT INTO PEOPLE(NAME, CATEGORY, ACCOMODATION)" +
-                        "VALUES(" + "'"+
-                        personLists.get(0).getName().trim()+"'" + "," +"'"+
-                        personLists.get(0).getCategory().trim() +"'"+ "," + "'"+
-                        personLists.get(0).getAccomodationRoom().trim() +"'"+ ")";
+                savePeopleSqlStatement = "INSERT INTO PEOPLE(NAME, CATEGORY, ACCOMODATION)" +
+                        "VALUES(" + "'" +
+                        personLists.get(0).getName().trim() + "'" + "," + "'" +
+                        personLists.get(0).getCategory().trim() + "'" + "," + "'" +
+                        personLists.get(0).getAccomodationRoom().trim() + "'" + ")";
 
                 System.out.println(savePeopleSqlStatement);
                 statement.execute(savePeopleSqlStatement);
@@ -79,9 +80,9 @@ public class dbModels {
             for (int index = 0; index < roomLists.size(); index++) {
 
                 saveRoomSqlStatement = "INSERT INTO ROOMS(NAME, CATEGORY)" +
-                        "VALUES(" +"'"+
-                        roomLists.get(0).getRoomName().trim()+"'" + ","+"'"+
-                        roomLists.get(0).getRoomCategory().trim()+"'"+ ")";
+                        "VALUES(" + "'" +
+                        roomLists.get(0).getRoomName().trim() + "'" + "," + "'" +
+                        roomLists.get(0).getRoomCategory().trim() + "'" + ")";
 
                 System.out.println(saveRoomSqlStatement);
                 statement.execute(saveRoomSqlStatement);
@@ -96,44 +97,65 @@ public class dbModels {
         return message;
     }
 
-     /**
-      *  Method that loads Room and Person app data state from database
-      *
-      *  */
+    /**
+     * Method that loads Room and Person app data state from database
+     */
 
-    public String loadState(String dbName) throws SQLException, ClassNotFoundException {
-
+    public HashMap<String, List> loadState(String dbName) throws SQLException, ClassNotFoundException {
+        HashMap<String, List> data = new HashMap<>();
         String dbUrl = "jdbc:sqlite:" + dbName + ".db";
 
-        if (dbName == null) {
-            message = "Add Database name";
-            return message;
-        } else if (connection == null) {
+        List<Person> personList = new ArrayList<>();
+        List<Room> roomList = new ArrayList<>();
 
-        } else {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection(dbUrl);
+            Statement statementPeople;
 
-            String[] sqlStatement = new String[2];
-            ResultSet[] resultSet = new ResultSet[2];
-            statement = connection.createStatement();
-            sqlStatement[0] = "SELECT * FROM PERSON";
-            sqlStatement[1] = "SELECT * FROM ROOM";
+            statementPeople = connection.createStatement();
 
+            String getPeopleStatement = "SELECT * FROM PEOPLE";
+            ResultSet peopleResultSet = statementPeople.executeQuery(getPeopleStatement);
 
-            while (resultSet[0].next()) {
-                person.setName(resultSet[0].getString("NAME"));
-                person.setCategory(resultSet[0].getString("CATEGORY"));
-                personOps.peopleList.add(person);
-            }
-            while (resultSet[1].next()) {
-                room.setRoomName(resultSet[1].getString("NAME"));
-                room.setRoomCategory(resultSet[1].getString("CATEGORY"));
-                roomOps.roomList.add(room);
+            while (peopleResultSet.next()) {
+
+                person.setName(peopleResultSet.getString("NAME").trim());
+                person.setCategory(peopleResultSet.getString("CATEGORY").trim());
+                person.setAccomodationRoom(peopleResultSet.getString("ACCOMODATION").trim());
+                personList.add(person);
             }
 
-            statement.close();
+            statementPeople.close();
             connection.close();
+
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection(dbUrl);
+            Statement statementRooms = connection.createStatement();
+
+            String getRoomStatement = "SELECT * FROM ROOMS";
+            ResultSet roomResultSet = statementRooms.executeQuery(getRoomStatement);
+
+
+            while (roomResultSet.next()) {
+                room.setRoomName(roomResultSet.getString("NAME").trim());
+                room.setRoomCategory(roomResultSet.getString("CATEGORY").trim());
+
+                roomList.add(room);
+                System.out.println(roomList.toString());
+
+            }
+            statementRooms.close();
+            connection.close();
+
+
+        } catch (Exception e) {
+            System.out.println("Error Occured : " + e.getMessage());
         }
 
-        return message;
+        data.put("People", personList);
+        data.put("Rooms", roomList);
+
+        return data;
     }
 }

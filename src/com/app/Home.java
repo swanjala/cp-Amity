@@ -1,5 +1,6 @@
 package com.app;
 
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -224,24 +225,17 @@ public class Home {
 
                 List<Room> roomVarList = addRoomTokenizer(navigationString);
 
-                RoomOps room = new RoomOps(roomVarList.get(0).getRoomName(), roomVarList.get(0).getRoomCategory());
-                List<Room> newRoom = room.addRoom();
+                RoomOps roomOps = new RoomOps(roomVarList.get(0).getRoomName(), roomVarList.get(0).getRoomCategory());
+                List<Room> newRoom = roomOps.addRoom();
                 roomInfo.add(newRoom);
-                room.setRoomInfo(roomInfo);
-
-                System.out.println(roomInfo.size());
 
                 Iterator<List<Room>> roomItr = roomInfo.iterator();
 
-
                 while (roomItr.hasNext()) {
                     List<Room> roomElements = roomItr.next();
-
-                    for (int i = 0; i < roomElements.size(); i++) {
-                        System.out.println(roomElements.get(i).getRoomName() + " " +
-                                "" + roomElements.get(i).getRoomCategory() + " " +
-                                "" + roomElements.get(i).getRoomCapacity());
-                    }
+                    System.out.println(roomElements.get(0).getRoomName() + " " +
+                            "" + roomElements.get(0).getRoomCategory() + " " +
+                            "" + roomElements.get(0).getRoomCapacity());
 
                 }
 
@@ -270,12 +264,23 @@ public class Home {
                 models.saveState(dbName,personInfo,roomInfo);
 
             }
-            if (navContent.contains("Load state")) {
+            if (navigationString.contains("Load State")) {
 
                 String dbName = saveLoadStateTokenizer(navigationString);
 
                 dbModels models = new dbModels();
-                models.loadState(dbName);
+                HashMap<String,List> data = models.loadState(dbName);
+                System.out.println("Getting data information " + data.toString());
+
+                List<Person> peopleList = data.get("People");
+                List<Room> roomList = data.get("Rooms");
+
+                for (int index = 0; index < peopleList.size(); index++) {
+                    personInfo.add(peopleList);
+                }
+                for (int index = 0; index < roomList.size(); index++) {
+                    roomInfo.add(roomList);
+                }
 
             } else {
                 System.out.println("Enter Correct Commands, see description for help");
