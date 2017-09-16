@@ -1,4 +1,6 @@
-package com.app;
+package com.app.Test.com.app;
+
+import com.app.dbHelper;
 
 import org.junit.*;
 

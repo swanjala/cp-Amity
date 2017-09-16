@@ -1,5 +1,8 @@
-package com.app;
+package com.app.Test.com.app;
 
+import com.app.Amity;
+import com.app.Person;
+import com.app.Room;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -32,7 +35,5 @@ public class AmityTest {
         message = amity.loadState();
         assertEquals(message,true);
     }
-
-
 
 }
