@@ -42,30 +42,29 @@ public class Home {
      * it into an array of usablevariables that adds a person to the application.
      */
 
-    private static List<Person> addPersonTokenizer(String addPersonInput) {
+    private static List<Person> addPersonTokenizer(StringTokenizer addPersonST) {
 
         List<Person> addPersonVarObject = new ArrayList<Person>();
         Person personVars = new Person();
-        StringTokenizer addPersonST = new StringTokenizer(addPersonInput.substring(10), " ");
         StringBuilder nameSb = new StringBuilder();
         Iterator<List<Room>> itr = roomInfo.iterator();
 
-        while (addPersonST.hasMoreTokens()) {
+            while (addPersonST.hasMoreTokens()) {
 
-            for (int i = 0; i < 2; i++) {
+                for (int i = 0; i < 2; i++) {
 
-                String nameVal = addPersonST.nextToken();
-                nameSb.append(nameVal + " ");
+                    String nameVal = addPersonST.nextToken();
+                    nameSb.append(nameVal + " ");
+
+                }
+
+                String Category = addPersonST.nextToken();
+                String accomodation = addPersonST.nextToken().toUpperCase();
+                personVars.setName(nameSb.toString().trim());
+                personVars.setCategory(Category);
+                personVars.setAccomodationRequest(accomodation);
 
             }
-
-            String Category = addPersonST.nextToken();
-            String accomodation = addPersonST.nextToken();
-            personVars.setName(nameSb.toString().trim());
-            personVars.setCategory(Category);
-            personVars.setAccomodationRequest(accomodation);
-
-        }
 
         List<Room> list;
         List<String> roomNames = new ArrayList<>();
@@ -99,9 +98,16 @@ public class Home {
     private static String shuffleBox(List<String> list) {
 
         Random randValue = new Random();
-        int index = randValue.nextInt(list.size());
 
-        return list.get(index);
+        if (list.size() == 0){
+            System.out.println("No rooms Available");
+            return  "No Rooms";
+        } else {
+
+            int index = randValue.nextInt(list.size());
+
+            return list.get(index);
+        }
 
     }
 
@@ -190,9 +196,9 @@ public class Home {
 
     public static void main(String[] arg) throws SQLException, ClassNotFoundException {
 
+        List<Person> varList = new ArrayList<>();
         input = new Scanner(System.in);
         System.out.println(" " + start());
-
 
         do {
             navigationString = input.nextLine();
@@ -203,7 +209,34 @@ public class Home {
 
             if (navContent.contains("Add Person")) {
 
-                List<Person> varList = addPersonTokenizer(navigationString);
+                StringTokenizer addPersonST = new StringTokenizer(navigationString.substring(10), " ");
+
+                int tokenCounter = addPersonST.countTokens();
+
+                    if (tokenCounter < 3){
+
+                        System.out.println("Use this format \n" +
+                                "Add Person <First Name> <Second Name> <Category> <Wants Accomodation> ");
+
+                    } else if(tokenCounter > 4){
+
+                        System.out.println("Too many variables.Use this format \n" +
+                                "Add Person <First Name> <Second Name> <Category> <Wants Accomodation> ");
+
+                    }else if (tokenCounter == 3) {
+
+                        String navigationStringDefault = navigationString.substring(10).concat("N");
+                        addPersonST = new StringTokenizer(navigationStringDefault);
+                        varList  = addPersonTokenizer(addPersonST);
+
+                    } else {
+
+                        varList = addPersonTokenizer(addPersonST);
+                    }
+
+                if (varList.get(0).getAccomodationRequest().equals("N")){
+                        varList.get(0).setAccomodationRoom("None");
+                }
 
                 PersonOps personOps = new PersonOps(varList.get(0).getName(), varList.get(0).getCategory()
                         , varList.get(0).getAccomodationRequest(), varList.get(0).getAccomodationRoom());
@@ -211,16 +244,18 @@ public class Home {
                 List<Person> pData = personOps.addPerson();
                 personInfo.add(pData);
 
-                System.out.println(pData.get(0).getName() + pData.get(0).getAccomodationRoom());
                 Iterator<List<Person>> itr = personInfo.iterator();
+
+                System.out.println("Name \t \t  Category \t Room");
 
                 while (itr.hasNext()) {
                     List<Person> element = itr.next();
-                    System.out.println(element.get(0).getName() + " " +
-                            "" + element.get(0).getAccomodationRoom());
+                    System.out.println(element.get(0).getName() + " " +element.get(0).getCategory()+
+                            " \t" + element.get(0).getAccomodationRoom());
                 }
 
-            }
+                }
+
             if (navContent.contains("Add Room")) {
 
                 List<Room> roomVarList = addRoomTokenizer(navigationString);
