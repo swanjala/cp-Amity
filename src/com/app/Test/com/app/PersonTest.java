@@ -1,5 +1,7 @@
-package com.app;
+package com.app.Test.com.app;
 
+import com.app.Person;
+import com.app.PersonOps;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -10,25 +12,23 @@ import static org.junit.Assert.fail;
 
 public class PersonTest {
 
-    PersonOps person = new PersonOps();
-    PersonOps reallocatePerson = new PersonOps("SAMMY WANJALA","FELLOW","Y", "NARNIA");
-    private String genericMessage;
-    private Person personData = new Person();
     private List<Person> peopleList = new ArrayList<Person>();
+    protected String name,category,requestRoom,roomAllocated;
 
-    public void setUp() {
-
-        personData.setName("SAMMY WANJALA");
-        personData.setCategory("FELLOW");
-        personData.setAccomodationRoom("NARNIA");
-        peopleList.add(personData);
-
-    }
 
     @Test
+    /**
+     * Test that a person can be added successfully
+     */
     public void test_that_a_person_has_been_added_successfully() {
 
-        peopleList = person.addPerson();
+
+        PersonOps personOps = new PersonOps("SAMMY WANJALA","FELLOW",
+                "Y","NARNIA");
+
+        peopleList = personOps.addPerson();
+
+        System.out.println(peopleList.get(0).getName().toString());
 
         assertEquals(peopleList.get(0).getName(), "SAMMY WANJALA");
     }
