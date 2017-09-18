@@ -66,32 +66,36 @@ public class PersonOps extends RoomOps {
 
     /**
      * Prints the list of people in the application
-     * @param peopleList
+     * @param allPeopleList
      * @return
      */
 
 
-    public String printPeople(List<Person> peopleList) {
+    public String printPeople(Collection <List<Person>> allPeopleList) {
 
-        for (Person peopleData:peopleList
-             ) {
-            sb.append(" "+peopleData.getName()+" "+ peopleData.getCategory()+
-                    peopleData.getAccomodationRequest()+" " +peopleData.getAccomodationRoom());
-        }
+        Iterator<List<Person>> iterator = allPeopleList.iterator();
+        while (iterator.hasNext()){
+            List<Person> allPeopleData = iterator.next();
+            sb.append(allPeopleData.get(0).getName()+" "+allPeopleData.get(0).getCategory()+" "+
+            allPeopleData.get(0).getAccomodationRoom());
+            }
 
         return sb.toString();
 
     }
 
-    public void printUnallocated() {
+    public String printUnallocated(Collection<List<Person>> allPeopleList) {
 
-        for (int i = 0; i < peopleList.size() ; i++) {
-
-            if (peopleList.get(i).getAccomodationRoom()==""){
-                System.out.println(peopleList.get(i).getName() + "\n");
+        Iterator<List<Person>> iterator = allPeopleList.iterator();
+        while (iterator.hasNext()){
+            List<Person> allPeopleData = iterator.next();
+            if (allPeopleData.get(0).getAccomodationRoom().equals("None")) {
+                sb.append(allPeopleData.get(0).getName() + " " + allPeopleData.get(0).getCategory() + " " +
+                        allPeopleData.get(0).getAccomodationRoom());
             }
         }
 
+        return sb.toString();
     }
 
 }

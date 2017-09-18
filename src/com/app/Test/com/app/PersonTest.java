@@ -22,7 +22,7 @@ public class PersonTest {
             "Y","NARNIA");
 
     /**
-     * Tests that a person can be added successfully
+     * Test that a person can be added successfully
      */
 
     @Test
@@ -35,7 +35,7 @@ public class PersonTest {
     }
 
     /**
-     * Tests that a person can be reallocated successfully
+     * Test that a person can be reallocated successfully
      */
 
     @Test
@@ -52,13 +52,36 @@ public class PersonTest {
 
     }
 
+    /**
+     * Test that people can be printed out
+     */
+
     @Test
-    public void test_that_fellows_can_be_printed() {
+    public void test_that_people_can_be_printed() {
+
+        peopleList = personOps.addPerson();
+        allPeopleData.add(peopleList);
+        PersonOps personOps = new PersonOps();
+
+        String output = personOps.printPeople(allPeopleData);
+
+        assertEquals(output,"SAMMY WANJALA FELLOW NARNIA");
 
     }
 
+    /**
+     * Test that unallocated people can be printed
+     */
+
     @Test
-    public void test_that_person_data_is_of_correct_type() {
-        fail();
+    public void test_that_unallocated_people_can_be_printed(){
+
+        PersonOps personOps = new PersonOps("ANTHONY NANDAA", "STAFF","N","None");
+        peopleList = personOps.addPerson();
+        allPeopleData.add(peopleList);
+        String unallocatedOutput = personOps.printUnallocated(allPeopleData);
+        assertEquals(unallocatedOutput,"ANTHONY NANDAA STAFF None");
+
     }
+
 }
