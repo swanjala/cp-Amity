@@ -1,6 +1,8 @@
 package com.app;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -28,10 +30,11 @@ public class PersonOps extends RoomOps {
 
     }
 
-    public PersonOps(String personName,String newRoom){
+    public PersonOps(String personName, String newRoom, Collection<List<Person>> personInfo){
 
         person.setName(personName);
         person.setAccomodationRoom(newRoom);
+        person.setAllPeopleCollection(personInfo);
 
     }
 
@@ -41,8 +44,32 @@ public class PersonOps extends RoomOps {
         return peopleList;
     }
 
+    /**
+     * Reallocates a person's accomodation space
+     *
+     */
 
-   /* Method returns the list of pe ople who are saved in the application*/
+    public String reallocatePerson(){
+
+        Collection<List<Person>> allPeopleList = person.getAllPeopleCollection();
+        Iterator<List<Person>> iterator = allPeopleList.iterator();
+        while (iterator.hasNext()){
+            List<Person> allPeopleData = iterator.next();
+            if (allPeopleData.get(0).getName().equals(person.getName().trim())){
+                allPeopleData.get(0).setAccomodationRoom(person.getAccomodationRoom());
+                return "Reallocation Success";
+            }
+        }
+        return "Reallocation Unsuccessful";
+    }
+
+
+    /**
+     * Prints the list of people in the application
+     * @param peopleList
+     * @return
+     */
+
 
     public String printPeople(List<Person> peopleList) {
 
