@@ -279,16 +279,10 @@ public class Home {
 
                 String[] roomVars = reallocateRoomTokenizer(navigationString);
 
-                Iterator<List<Person>> itr = personInfo.iterator();
+                System.out.println(personInfo.size());
 
-                while (itr.hasNext()) {
-                    List<Person> element = itr.next();
-
-                    if (element.get(0).getName().equals(roomVars[0].trim())) {
-                        element.get(0).setAccomodationRoom(roomVars[1]);
-
-                    }
-                }
+                PersonOps personOps = new PersonOps(roomVars[0],roomVars[1],personInfo);
+                personOps.reallocatePerson();
 
             }
             if (navigationString.contains("Save State")) {
