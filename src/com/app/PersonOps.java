@@ -1,6 +1,8 @@
 package com.app;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -28,10 +30,11 @@ public class PersonOps extends RoomOps {
 
     }
 
-    public PersonOps(String personName,String newRoom){
+    public PersonOps(String personName, String newRoom, Collection<List<Person>> personInfo){
 
         person.setName(personName);
         person.setAccomodationRoom(newRoom);
+        person.setAllPeopleCollection(personInfo);
 
     }
 
@@ -41,30 +44,58 @@ public class PersonOps extends RoomOps {
         return peopleList;
     }
 
+    /**
+     * Reallocates a person's accomodation space
+     *
+     */
 
-   /* Method returns the list of pe ople who are saved in the application*/
+    public String reallocatePerson(){
 
-    public String printPeople(List<Person> peopleList) {
-
-        for (Person peopleData:peopleList
-             ) {
-            sb.append(" "+peopleData.getName()+" "+ peopleData.getCategory()+
-                    peopleData.getAccomodationRequest()+" " +peopleData.getAccomodationRoom());
+        Collection<List<Person>> allPeopleList = person.getAllPeopleCollection();
+        Iterator<List<Person>> iterator = allPeopleList.iterator();
+        while (iterator.hasNext()){
+            List<Person> allPeopleData = iterator.next();
+            if (allPeopleData.get(0).getName().equals(person.getName().trim())){
+                allPeopleData.get(0).setAccomodationRoom(person.getAccomodationRoom());
+                return "Reallocation Success";
+            }
         }
+        return "Reallocation Unsuccessful";
+    }
+
+
+    /**
+     * Prints the list of people in the application
+     * @param allPeopleList
+     * @return
+     */
+
+
+    public String printPeople(Collection <List<Person>> allPeopleList) {
+
+        Iterator<List<Person>> iterator = allPeopleList.iterator();
+        while (iterator.hasNext()){
+            List<Person> allPeopleData = iterator.next();
+            sb.append(allPeopleData.get(0).getName()+" "+allPeopleData.get(0).getCategory()+" "+
+            allPeopleData.get(0).getAccomodationRoom());
+            }
 
         return sb.toString();
 
     }
 
-    public void printUnallocated() {
+    public String printUnallocated(Collection<List<Person>> allPeopleList) {
 
-        for (int i = 0; i < peopleList.size() ; i++) {
-
-            if (peopleList.get(i).getAccomodationRoom()==""){
-                System.out.println(peopleList.get(i).getName() + "\n");
+        Iterator<List<Person>> iterator = allPeopleList.iterator();
+        while (iterator.hasNext()){
+            List<Person> allPeopleData = iterator.next();
+            if (allPeopleData.get(0).getAccomodationRoom().equals("None")) {
+                sb.append(allPeopleData.get(0).getName() + " " + allPeopleData.get(0).getCategory() + " " +
+                        allPeopleData.get(0).getAccomodationRoom());
             }
         }
 
+        return sb.toString();
     }
 
 }
