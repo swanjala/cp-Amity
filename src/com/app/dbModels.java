@@ -1,11 +1,6 @@
 package com.app;
 
-import java.io.InputStream;
-import java.io.Reader;
-import java.math.BigDecimal;
-import java.net.URL;
 import java.sql.*;
-import java.sql.Date;
 import java.util.*;
 
 /**
@@ -37,7 +32,7 @@ public class dbModels {
      * Method that saves Room and Person app data state to database
      */
 
-    public String saveState(String dbName, Collection<List<Person>> personData, Collection<List<Room>> roomData)
+    public Boolean saveState(String dbName, Collection<List<Person>> personData, Collection<List<Room>> roomData)
             throws SQLException, ClassNotFoundException {
 
         initializeDb(dbName); //Initialize DB
@@ -53,48 +48,49 @@ public class dbModels {
         Iterator<List<Person>> personIterator = personData.iterator();
         Iterator<List<Room>> roomIterator = roomData.iterator();
 
+        try {
+            while (personIterator.hasNext()) {
+                List<Person> personLists = personIterator.next();
 
-        while (personIterator.hasNext()) {
-            List<Person> personLists = personIterator.next();
 
+                for (int index = 0; index < personLists.size(); index++) {
 
-            for (int index = 0; index < personLists.size(); index++) {
+                    savePeopleSqlStatement = "INSERT INTO PEOPLE(NAME, CATEGORY, ACCOMODATION)" +
+                            "VALUES(" + "'" +
+                            personLists.get(0).getName().trim() + "'" + "," + "'" +
+                            personLists.get(0).getCategory().trim() + "'" + "," + "'" +
+                            personLists.get(0).getAccomodationRoom().trim() + "'" + ")";
 
-                savePeopleSqlStatement = "INSERT INTO PEOPLE(NAME, CATEGORY, ACCOMODATION)" +
-                        "VALUES(" + "'" +
-                        personLists.get(0).getName().trim() + "'" + "," + "'" +
-                        personLists.get(0).getCategory().trim() + "'" + "," + "'" +
-                        personLists.get(0).getAccomodationRoom().trim() + "'" + ")";
+                    System.out.println(savePeopleSqlStatement);
+                    statement.execute(savePeopleSqlStatement);
 
-                System.out.println(savePeopleSqlStatement);
-                statement.execute(savePeopleSqlStatement);
+                }
 
             }
-
-        }
-
-        while (roomIterator.hasNext()) {
-            List<Room> roomLists = roomIterator.next();
+            while (roomIterator.hasNext()) {
+                List<Room> roomLists = roomIterator.next();
 
 
-            for (int index = 0; index < roomLists.size(); index++) {
+                for (int index = 0; index < roomLists.size(); index++) {
 
-                saveRoomSqlStatement = "INSERT INTO ROOMS(NAME, CATEGORY)" +
-                        "VALUES(" + "'" +
-                        roomLists.get(0).getRoomName().trim() + "'" + "," + "'" +
-                        roomLists.get(0).getRoomCategory().trim() + "'" + ")";
+                    saveRoomSqlStatement = "INSERT INTO ROOMS(NAME, CATEGORY)" +
+                            "VALUES(" + "'" +
+                            roomLists.get(0).getRoomName().trim() + "'" + "," + "'" +
+                            roomLists.get(0).getRoomCategory().trim() + "'" + ")";
 
-                System.out.println(saveRoomSqlStatement);
-                statement.execute(saveRoomSqlStatement);
+                    System.out.println(saveRoomSqlStatement);
+                    statement.execute(saveRoomSqlStatement);
+                }
             }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
         }
 
         statement.close();
         connection.close();
 
-        message = "State Saved";
-
-        return message;
+        return true;
     }
 
     /**

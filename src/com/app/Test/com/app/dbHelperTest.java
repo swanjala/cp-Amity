@@ -2,39 +2,48 @@ package com.app.Test.com.app;
 
 import com.app.dbHelper;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.*;
 
 import static org.junit.Assert.*;
 
 public class dbHelperTest {
 
-    private static String testDB = "testAmity", createPeopleTable, createRoomTable;
+    private  String testDB = "renaomd";
+    dbHelper helper = new dbHelper();
+    boolean createDb = helper.createDB(testDB);
 
-    static dbHelper helper = new dbHelper();
-    static String message = helper.createDB(testDB);
-
-    @BeforeClass
-    public static void setUp() {
-        createPeopleTable = helper.createPeopleTable(testDB);
-        createRoomTable = helper.createRoomTable(testDB);
-    }
+    /**
+     * Test that the database has been created successfully
+     */
 
     @Test
     public void test_that_database_is_created_succcessfully() {
 
-        assertEquals(message, "Connection Success!");
+        assertEquals(createDb, true);
     }
+
+    /**
+     * Test that the people table has been created successfully
+     */
 
     @Test
     public void test_that_people_table_is_created_successfully() {
+        boolean createPeopleTable = helper.createPeopleTable(testDB);
+        System.out.println(createPeopleTable);
 
-        assertEquals(createPeopleTable, "People table created successfully");
+        assertEquals(createPeopleTable, true);
     }
+
+    /**
+     * Test that the room table has been created successfully
+     */
 
     @Test
     public void test_that_room_table_is_created_successfully() {
+        boolean createRoomTable = helper.createRoomTable(testDB);
 
-        assertEquals(createRoomTable, "Room table created successfully");
+        assertEquals(createRoomTable, true);
     }
 
 

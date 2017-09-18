@@ -35,7 +35,8 @@ public class RoomOps extends Room {
                 room.setCapacity(6);
 
             }else {
-                room.setCapacity(0);
+                System.out.println("Enter the correct category");
+
             }
         }
 
