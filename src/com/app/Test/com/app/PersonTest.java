@@ -18,7 +18,7 @@ public class PersonTest {
 
 
     PersonOps personOps = new PersonOps("SAMMY WANJALA","FELLOW",
-            "Y","NARNIA");
+            "Y","NARNIA","SHELL");
 
     /**
      * Test that a person can be added successfully
@@ -75,7 +75,7 @@ public class PersonTest {
     @Test
     public void test_that_unallocated_people_can_be_printed(){
 
-        PersonOps personOps = new PersonOps("ANTHONY NANDAA", "STAFF","N","None");
+        PersonOps personOps = new PersonOps("ANTHONY NANDAA", "STAFF","N","None","None");
         peopleList = personOps.addPerson();
         allPeopleData.add(peopleList);
         String unallocatedOutput = personOps.printUnallocated(allPeopleData);
