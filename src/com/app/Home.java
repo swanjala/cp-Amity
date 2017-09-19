@@ -13,7 +13,6 @@ import java.util.*;
  */
 
 public class Home {
-
     private static String startText;
     private static String navigationString = "";
     private static String navContent = "";
@@ -45,6 +44,7 @@ public class Home {
     private static List<Person> addPersonTokenizer(StringTokenizer addPersonST) {
 
         List<Person> addPersonVarObject = new ArrayList<Person>();
+        Room room = new Room();
         Person personVars = new Person();
         StringBuilder nameSb = new StringBuilder();
         Iterator<List<Room>> itr = roomInfo.iterator();
@@ -67,19 +67,35 @@ public class Home {
             }
 
         List<Room> list;
-        List<String> roomNames = new ArrayList<>();
-        String randomizedName;
+        List<Room> roomNames = new ArrayList<>();
+        List<Room> randomizedName;
 
         while (itr.hasNext()) {
 
             list = itr.next();
-            roomNames.add(list.get(0).getRoomName());
+            room.setRoomName(list.get(0).getRoomName());
+            room.setRoomCategory(list.get(0).getRoomCategory());
+
+            roomNames.add(room);
 
         }
 
         randomizedName = shuffleBox(roomNames);
-        personVars.setAccomodationRoom(randomizedName);
+        //
+
+        do {
+            randomizedName =shuffleBox(roomNames);
+        } while (randomizedName.get(0).getRoomCategory().equals("OFFICE") && !randomizedName.equals(null) );
+        personVars.setAccomodationRoom(randomizedName.get(0).getRoomName());
+
+        do {
+            randomizedName =shuffleBox(roomNames);
+        } while (randomizedName.get(0).getRoomCategory().equals("LIVING") && !randomizedName.equals(null));
+
+        personVars.setOfficeRoom(randomizedName.get(0).getRoomName());
+
         addPersonVarObject.add(personVars);
+
         return addPersonVarObject;
     }
 
@@ -95,18 +111,25 @@ public class Home {
      * @return
      */
 
-    private static String shuffleBox(List<String> list) {
+    private static List<Room> shuffleBox(List<Room> list) {
+
+        Room room = new Room();
+        List<Room> result = new ArrayList<>();
 
         Random randValue = new Random();
 
         if (list.size() == 0){
             System.out.println("No rooms Available");
-            return  "No Rooms";
+            return  null;
         } else {
 
             int index = randValue.nextInt(list.size());
 
-            return list.get(index);
+            room.setRoomName(list.get(index).getRoomName());
+            room.setRoomName(list.get(index).getRoomCategory());
+            result.add(room);
+
+            return result;
         }
 
     }
