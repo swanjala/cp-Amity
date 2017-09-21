@@ -15,12 +15,13 @@ public class PersonOps extends RoomOps {
     private Person person = new Person();
     private StringBuilder sb = new StringBuilder();
 
-    public PersonOps(String name,String category, String wantsAccomodation, String roomAllocatedName){
+    public PersonOps(String name,String category, String wantsAccomodation, String roomAllocatedName,String officeSpace){
 
         person.setName(name);
         person.setCategory(category);
         person.setAccomodationRequest("Y");
         person.setAccomodationRoom(roomAllocatedName);
+        person.setOfficeRoom(officeSpace);
 
 
     }
