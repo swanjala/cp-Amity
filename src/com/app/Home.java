@@ -83,6 +83,7 @@ public class Home {
 
         randomizedName = shuffleBox(roomNames);
 
+
         if (personVars.getAccomodationRequest().equals("Y")) {
 
             do {
@@ -90,6 +91,7 @@ public class Home {
                 randomizedName = shuffleBox(roomNames);
 
             } while (randomizedName.get(0).getRoomCategory().equals("OFFICE") && !randomizedName.equals(null));
+
 
             personVars.setAccomodationRoom(randomizedName.get(0).getRoomName());
 
