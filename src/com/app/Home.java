@@ -13,7 +13,6 @@ import java.util.*;
  */
 
 public class Home {
-
     private static String startText;
     private static String navigationString = "";
     private static String navContent = "";
@@ -44,42 +43,74 @@ public class Home {
 
     private static List<Person> addPersonTokenizer(StringTokenizer addPersonST) {
 
-        List<Person> addPersonVarObject = new ArrayList<Person>();
+
+        Room room = new Room();
         Person personVars = new Person();
         StringBuilder nameSb = new StringBuilder();
         Iterator<List<Room>> itr = roomInfo.iterator();
+        List<Room> list;
+        List<Room> roomNames = new ArrayList<>();
+        List<Room> randomizedName;
+        List<Person> addPersonVarObject = new ArrayList<Person>();
 
-            while (addPersonST.hasMoreTokens()) {
+        while (addPersonST.hasMoreTokens()) {
 
-                for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 2; i++) {
 
-                    String nameVal = addPersonST.nextToken();
-                    nameSb.append(nameVal + " ");
-
-                }
-
-                String Category = addPersonST.nextToken();
-                String accomodation = addPersonST.nextToken().toUpperCase();
-                personVars.setName(nameSb.toString().trim());
-                personVars.setCategory(Category);
-                personVars.setAccomodationRequest(accomodation);
+                String nameVal = addPersonST.nextToken();
+                nameSb.append(nameVal + " ");
 
             }
 
-        List<Room> list;
-        List<String> roomNames = new ArrayList<>();
-        String randomizedName;
+            String Category = addPersonST.nextToken();
+            String accomodation = addPersonST.nextToken().toUpperCase();
+            personVars.setName(nameSb.toString().trim());
+            personVars.setCategory(Category);
+            personVars.setAccomodationRequest(accomodation);
+
+        }
+
 
         while (itr.hasNext()) {
 
             list = itr.next();
-            roomNames.add(list.get(0).getRoomName());
+            room.setRoomName(list.get(0).getRoomName());
+            room.setRoomCategory(list.get(0).getRoomCategory());
+
+            roomNames.add(room);
 
         }
 
         randomizedName = shuffleBox(roomNames);
-        personVars.setAccomodationRoom(randomizedName);
+
+
+        if (personVars.getAccomodationRequest().equals("Y")) {
+
+            do {
+
+                randomizedName = shuffleBox(roomNames);
+
+            } while (randomizedName.get(0).getRoomCategory().equals("OFFICE") && !randomizedName.equals(null));
+
+
+            personVars.setAccomodationRoom(randomizedName.get(0).getRoomName());
+
+        } else {
+
+            personVars.setAccomodationRoom("None");
+
+        }
+
+        do {
+
+            randomizedName = shuffleBox(roomNames);
+
+        } while (randomizedName.get(0).getRoomCategory().equals("LIVING") && !randomizedName.equals(null));
+
+        personVars.setOfficeRoom(randomizedName.get(0).getRoomName());
+
         addPersonVarObject.add(personVars);
+
         return addPersonVarObject;
     }
 
@@ -95,18 +126,25 @@ public class Home {
      * @return
      */
 
-    private static String shuffleBox(List<String> list) {
+    private static List<Room> shuffleBox(List<Room> list) {
+
+        Room room = new Room();
+        List<Room> result = new ArrayList<>();
 
         Random randValue = new Random();
 
-        if (list.size() == 0){
+        if (list.size() == 0) {
             System.out.println("No rooms Available");
-            return  "No Rooms";
+            return null;
         } else {
 
             int index = randValue.nextInt(list.size());
 
-            return list.get(index);
+            room.setRoomName(list.get(index).getRoomName());
+            room.setRoomName(list.get(index).getRoomCategory());
+            result.add(room);
+
+            return result;
         }
 
     }
@@ -190,7 +228,7 @@ public class Home {
             dbnameSB.append(databaseName);
         }
 
-        return dbnameSB.toString() ;
+        return dbnameSB.toString();
 
     }
 
@@ -213,33 +251,33 @@ public class Home {
 
                 int tokenCounter = addPersonST.countTokens();
 
-                    if (tokenCounter < 3){
+                if (tokenCounter < 3) {
 
-                        System.out.println("Use this format \n" +
-                                "Add Person <First Name> <Second Name> <Category> <Wants Accomodation> ");
+                    System.out.println("Use this format \n" +
+                            "Add Person <First Name> <Second Name> <Category> <Wants Accomodation> ");
 
-                    } else if(tokenCounter > 4){
+                } else if (tokenCounter > 4) {
 
-                        System.out.println("Too many variables.Use this format \n" +
-                                "Add Person <First Name> <Second Name> <Category> <Wants Accomodation> ");
+                    System.out.println("Too many variables.Use this format \n" +
+                            "Add Person <First Name> <Second Name> <Category> <Wants Accomodation> ");
 
-                    }else if (tokenCounter == 3) {
+                } else if (tokenCounter == 3) {
 
-                        String navigationStringDefault = navigationString.substring(10).concat("N");
-                        addPersonST = new StringTokenizer(navigationStringDefault);
-                        varList  = addPersonTokenizer(addPersonST);
+                    String navigationStringDefault = navigationString.substring(10).concat("N");
+                    addPersonST = new StringTokenizer(navigationStringDefault);
+                    varList = addPersonTokenizer(addPersonST);
 
-                    } else {
+                } else {
 
-                        varList = addPersonTokenizer(addPersonST);
-                    }
+                    varList = addPersonTokenizer(addPersonST);
+                }
 
-                if (varList.get(0).getAccomodationRequest().equals("N")){
-                        varList.get(0).setAccomodationRoom("None");
+                if (varList.get(0).getAccomodationRequest().equals("N")) {
+                    varList.get(0).setAccomodationRoom("None");
                 }
 
                 PersonOps personOps = new PersonOps(varList.get(0).getName(), varList.get(0).getCategory()
-                        , varList.get(0).getAccomodationRequest(), varList.get(0).getAccomodationRoom());
+                        , varList.get(0).getAccomodationRequest(), varList.get(0).getAccomodationRoom(), varList.get(0).getAllocatedOffice());
 
                 List<Person> pData = personOps.addPerson();
                 personInfo.add(pData);
@@ -250,11 +288,11 @@ public class Home {
 
                 while (itr.hasNext()) {
                     List<Person> element = itr.next();
-                    System.out.println(element.get(0).getName() + " " +element.get(0).getCategory()+
+                    System.out.println(element.get(0).getName() + " " + element.get(0).getCategory() +
                             " \t" + element.get(0).getAccomodationRoom());
                 }
 
-                }
+            }
 
             if (navContent.contains("Add Room")) {
 
@@ -281,7 +319,7 @@ public class Home {
 
                 System.out.println(personInfo.size());
 
-                PersonOps personOps = new PersonOps(roomVars[0],roomVars[1],personInfo);
+                PersonOps personOps = new PersonOps(roomVars[0], roomVars[1], personInfo);
                 personOps.reallocatePerson();
 
             }
@@ -290,7 +328,7 @@ public class Home {
                 String dbName = saveLoadStateTokenizer(navigationString);
 
                 dbModels models = new dbModels();
-                models.saveState(dbName,personInfo,roomInfo);
+                models.saveState(dbName, personInfo, roomInfo);
 
             }
             if (navigationString.contains("Load State")) {
@@ -298,7 +336,7 @@ public class Home {
                 String dbName = saveLoadStateTokenizer(navigationString);
 
                 dbModels models = new dbModels();
-                HashMap<String,List> data = models.loadState(dbName);
+                HashMap<String, List> data = models.loadState(dbName);
                 System.out.println("Getting data information " + data.toString());
 
                 List<Person> peopleList = data.get("People");
