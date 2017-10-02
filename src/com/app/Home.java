@@ -83,7 +83,8 @@ public class Home {
 
         }
 
-        if (personVars.getAccomodationRequest().equals("Y")) {
+        if (personVars.getAccomodationRequest().equals("Y") &&
+                personVars.getCategory().equals("STAFF")) {
 
             randomizedName = shuffleBox(roomInfo);
             personVars.setAccomodationRoom(randomizedName.get("Living"));
@@ -282,8 +283,8 @@ public class Home {
                     varList.get(0).setAccomodationRoom("None");
                 }
 
-                PersonOps personOps = new PersonOps(varList.get(0).getName(), varList.get(0).getCategory()
-                        , varList.get(0).getAccomodationRequest(), varList.get(0).getAccomodationRoom(), varList.get(0).getAllocatedOffice());
+                PersonOps personOps = new PersonOps(varList.get(0).getName(), varList.get(0).getCategory().toUpperCase()
+                        , varList.get(0).getAccomodationRequest().toUpperCase(), varList.get(0).getAccomodationRoom(), varList.get(0).getAllocatedOffice());
 
                 List<Person> pData = personOps.addPerson();
                 personInfo.add(pData);
@@ -296,7 +297,8 @@ public class Home {
                 while (itr.hasNext()) {
                     List<Person> element = itr.next();
                     System.out.println(element.get(0).getName() + " " + element.get(0).getCategory() +
-                            " \t" + element.get(0).getAccomodationRoom() + "\t" + element.get(0).getAllocatedOffice());
+                            " \t" + element.get(0).getAccomodationRoom() + "\t"
+                            + element.get(0).getAllocatedOffice());
                 }
 
             }
@@ -305,7 +307,8 @@ public class Home {
 
                 List<Room> roomVarList = addRoomTokenizer(navigationString);
 
-                RoomOps roomOps = new RoomOps(roomVarList.get(0).getRoomName(), roomVarList.get(0).getRoomCategory());
+                RoomOps roomOps = new RoomOps(roomVarList.get(0).getRoomName(),
+                        roomVarList.get(0).getRoomCategory().toUpperCase());
                 List<Room> newRoom = roomOps.addRoom();
                 roomInfo.add(newRoom);
 
@@ -316,7 +319,6 @@ public class Home {
                     System.out.println(roomElements.get(0).getRoomName() + " " +
                             "" + roomElements.get(0).getRoomCategory() + " " +
                             "" + roomElements.get(0).getRoomCapacity());
-
                 }
 
             }
