@@ -1,6 +1,7 @@
 package com.app;
 
 import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
+import jdk.nashorn.internal.ir.WhileNode;
 
 import java.math.RoundingMode;
 import java.sql.Array;
@@ -256,6 +257,25 @@ public class Home {
 
     }
 
+    /**
+     * printRoomTokenizer: This method uses a space delimiter to break
+     * down an input String entered in a Commandline User Interface
+     * and parses it into an array of usable string variables that prints
+     * users allocated to a specified room.
+     */
+    private static  String printRoomTokenizer(String printRoomString){
+        String  printRoomVar = "";
+
+        StringTokenizer printRoomST = new StringTokenizer(printRoomString.substring(10));
+
+        while (printRoomST.hasMoreTokens()){
+            printRoomVar = printRoomST.nextToken();
+        }
+
+
+        return printRoomVar;
+    }
+
     public static void main(String[] arg) throws SQLException, ClassNotFoundException {
 
         List<Person> varList = new ArrayList<>();
@@ -369,13 +389,32 @@ public class Home {
                     roomInfo.add(roomList);
                 }
 
-            } if (navigationString.contains("Print People")){
+            }
+            if (navigationString.contains("Print People")){
 
                 PersonOps personOps = new PersonOps();
 
                 String peopleValue = personOps.printPeople(personInfo);
 
                 System.out.println(peopleValue);
+            }
+            if (navigationString.contains("Print Room")){
+
+                String printRoomVar = printRoomTokenizer(navigationString);
+
+                // Create a collection of rooms
+
+                Iterator<List<Person>> iterator = personInfo.iterator();
+
+                System.out.println(printRoomVar + "\n" +"+++++++++++++++++++"+"\n");
+
+                while (iterator.hasNext()){
+                    List<Person> personElementList = iterator.next();
+
+                   if (personElementList.get(0).getAllocatedOffice().equals(printRoomVar)){
+                       System.out.println(personElementList.get(0).getName());
+                   }
+                }
             }
 
             else {
