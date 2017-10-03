@@ -33,6 +33,7 @@ public class Home {
                 "Reallocate <First Name> <Second Name> <New Room Name> \n" +
                 "Save State <dbName> \n" +
                 "Load State <dbName>\n" +
+                "Print Peopele \n" +
                 "Enter 'quit' to exit";
 
         return startText;
@@ -58,7 +59,6 @@ public class Home {
         while (addPersonST.hasMoreTokens()) {
 
             for (int i = 0; i < 2; i++) {
-
                 String nameVal = addPersonST.nextToken();
                 nameSb.append(nameVal + " ");
 
@@ -72,7 +72,6 @@ public class Home {
 
         }
 
-
         while (itr.hasNext()) {
 
             list = itr.next();
@@ -84,18 +83,24 @@ public class Home {
         }
 
         if (personVars.getAccomodationRequest().equals("Y") &&
-                personVars.getCategory().equals("STAFF")) {
+                !personVars.getCategory().equals("STAFF")) {
 
             randomizedName = shuffleBox(roomInfo);
             personVars.setAccomodationRoom(randomizedName.get("Living"));
+            personVars.setOfficeRoom(randomizedName.get("Office"));
 
-        } else {
+        } else if (personVars.getAccomodationRequest().toUpperCase().trim().equals("N") &&
+                personVars.getCategory().trim().equals("FELLOW")) {
 
             personVars.setAccomodationRoom("None");
+            personVars.setOfficeRoom(randomizedName.get("Office"));
 
+        } else if (personVars.getCategory().equals("STAFF")) {
+
+            personVars.setAccomodationRoom("None");
+            personVars.setOfficeRoom(randomizedName.get("Office"));
         }
 
-        personVars.setOfficeRoom(randomizedName.get("Office"));
 
         addPersonVarObject.add(personVars);
 
@@ -120,40 +125,49 @@ public class Home {
         Room room = new Room();
         Random randValue = new Random();
         List<Room> result = new ArrayList<>();
+        String livingRoomToAllocate;
+        String officeSpaceToAllocate;
+         int livingRoomIndex = 0;
+        int officeIndex = 0;
 
 
-        if (roomList.size() == 0) {
-
-            System.out.println("There are no rooms for allocation");
-            return null;
-        } else {
-
-            Iterator<List<Room>> iterator = roomList.iterator();
+        Iterator<List<Room>> iterator = roomList.iterator();
 
 
-            while (iterator.hasNext()) {
+        while (iterator.hasNext()) {
 
-                List<Room> roomIterator = iterator.next();
+            List<Room> roomIterator = iterator.next();
 
-                for (int index = 0; index < roomIterator.size(); index++) {
 
-                    if (roomIterator.get(0).getRoomCategory().equals("LIVING")) {
-                        livingRoomNames.add(roomIterator.get(0).getRoomName());
-                    } else if (roomIterator.get(0).getRoomCategory().equals("OFFICE")) {
-                        officeSpace.add(roomIterator.get(0).getRoomName());
-                    }
+            for (int index = 0; index < roomIterator.size(); index++) {
+
+                if (roomIterator.get(0).getRoomCategory().equals("LIVING")) {
+                    livingRoomNames.add(roomIterator.get(0).getRoomName());
+                } else if (roomIterator.get(0).getRoomCategory().equals("OFFICE")) {
+                    officeSpace.add(roomIterator.get(0).getRoomName());
                 }
             }
         }
 
-        int index = randValue.nextInt(livingRoomNames.size());
-        int officeIndex = randValue.nextInt(officeSpace.size());
+        if (livingRoomNames.size()== 0){
 
-        String livingRoomToAllocate = livingRoomNames.get(index);
-        String officeSpaceToAllocate = officeSpace.get(officeIndex);
+            livingRoomToAllocate ="Sample Room";
+
+        }else {
+            livingRoomIndex = randValue.nextInt(livingRoomNames.size());
+            livingRoomToAllocate = livingRoomNames.get(livingRoomIndex);
+        }
+
+        if (officeSpace.size() ==0){
+            officeSpaceToAllocate = "Sample Space";
+        } else {
+            officeIndex = randValue.nextInt(officeSpace.size());
+            officeSpaceToAllocate = officeSpace.get(officeIndex);
+        }
 
         roomValues.put("Office", officeSpaceToAllocate);
         roomValues.put("Living", livingRoomToAllocate);
+        roomValues.put("NoRespose", "No Room");
 
         return roomValues;
 
@@ -279,12 +293,9 @@ public class Home {
                     varList = addPersonTokenizer(addPersonST);
                 }
 
-                if (varList.get(0).getAccomodationRequest().equals("N")) {
-                    varList.get(0).setAccomodationRoom("None");
-                }
-
                 PersonOps personOps = new PersonOps(varList.get(0).getName(), varList.get(0).getCategory().toUpperCase()
-                        , varList.get(0).getAccomodationRequest().toUpperCase(), varList.get(0).getAccomodationRoom(), varList.get(0).getAllocatedOffice());
+                        , varList.get(0).getAccomodationRequest().toUpperCase(), varList.get(0).getAccomodationRoom(),
+                        varList.get(0).getAllocatedOffice());
 
                 List<Person> pData = personOps.addPerson();
                 personInfo.add(pData);
@@ -297,7 +308,7 @@ public class Home {
                 while (itr.hasNext()) {
                     List<Person> element = itr.next();
                     System.out.println(element.get(0).getName() + " " + element.get(0).getCategory() +
-                            " \t" + element.get(0).getAccomodationRoom() + "\t"
+                            " \t" + element.get(0).getAccomodationRoom() + "\t \t"
                             + element.get(0).getAllocatedOffice());
                 }
 
@@ -358,7 +369,16 @@ public class Home {
                     roomInfo.add(roomList);
                 }
 
-            } else {
+            } if (navigationString.contains("Print People")){
+
+                PersonOps personOps = new PersonOps();
+
+                String peopleValue = personOps.printPeople(personInfo);
+
+                System.out.println(peopleValue);
+            }
+
+            else {
                 System.out.println("Enter Correct Commands, see description for help");
             }
         } while (!navigationString.equals("quit"));
