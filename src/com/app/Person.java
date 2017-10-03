@@ -21,9 +21,7 @@ public class Person extends Room {
     }
 
     public void setCategory(String category){
-
         this.category = category;
-
     }
     public void setAllPeopleCollection(Collection<List<Person>> peopleInfo){
         this.peopleCollection = peopleInfo;
@@ -56,9 +54,7 @@ public class Person extends Room {
     }
 
     public String getCategory(){
-
         return category;
-
     }
 
     public String getAccomodationRequest(){

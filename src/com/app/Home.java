@@ -34,7 +34,8 @@ public class Home {
                 "Reallocate <First Name> <Second Name> <New Room Name> \n" +
                 "Save State <dbName> \n" +
                 "Load State <dbName>\n" +
-                "Print Peopele \n" +
+                "Print People \n" +
+                "Print Room \n" +
                 "Enter 'quit' to exit";
 
         return startText;
@@ -54,8 +55,10 @@ public class Home {
         Iterator<List<Room>> itr = roomInfo.iterator();
         List<Room> list;
         List<Room> roomNames = new ArrayList<>();
-        HashMap<String, String> randomizedName = new HashMap<>();
         List<Person> addPersonVarObject = new ArrayList<Person>();
+        HashMap<String, String> randomizedName = new HashMap<>();
+
+       // Create a set of variables by tokenizing the input string  using a space delimiter
 
         while (addPersonST.hasMoreTokens()) {
 
@@ -73,15 +76,11 @@ public class Home {
 
         }
 
-        while (itr.hasNext()) {
+        // Return a hashmap containing a random set of room names
 
-            list = itr.next();
-            room.setRoomName(list.get(0).getRoomName());
-            room.setRoomCategory(list.get(0).getRoomCategory());
+        randomizedName = shuffleBox(roomInfo);
 
-            roomNames.add(room);
-
-        }
+        // Handle conditional room allocations
 
         if (personVars.getAccomodationRequest().equals("Y") &&
                 !personVars.getCategory().equals("STAFF")) {
@@ -122,18 +121,22 @@ public class Home {
 
         List<String> livingRoomNames = new ArrayList<>();
         List<String> officeSpace = new ArrayList<>();
+        List<Room> result = new ArrayList<>();
+
         HashMap<String, String> roomValues = new HashMap<>();
+
         Room room = new Room();
         Random randValue = new Random();
-        List<Room> result = new ArrayList<>();
+
         String livingRoomToAllocate;
         String officeSpaceToAllocate;
-         int livingRoomIndex = 0;
+        int livingRoomIndex = 0;
         int officeIndex = 0;
 
 
         Iterator<List<Room>> iterator = roomList.iterator();
 
+        // Sort room collections by type
 
         while (iterator.hasNext()) {
 
@@ -149,6 +152,8 @@ public class Home {
                 }
             }
         }
+
+        // Select rooms using conditional logic
 
         if (livingRoomNames.size()== 0){
 
@@ -296,7 +301,6 @@ public class Home {
 
                 int tokenCounter = addPersonST.countTokens();
 
-
                 if (tokenCounter < 3) {
 
                     System.out.println("Use this format \n" +
@@ -319,7 +323,6 @@ public class Home {
 
                 List<Person> pData = personOps.addPerson();
                 personInfo.add(pData);
-
 
                 Iterator<List<Person>> itr = personInfo.iterator();
 
@@ -401,8 +404,6 @@ public class Home {
             if (navigationString.contains("Print Room")){
 
                 String printRoomVar = printRoomTokenizer(navigationString);
-
-                // Create a collection of rooms
 
                 Iterator<List<Person>> iterator = personInfo.iterator();
 
