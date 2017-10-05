@@ -25,7 +25,6 @@ public class PersonOps extends RoomOps {
 
 
     }
-    /* Overload constractor with reallocation variables */
 
     public PersonOps() {
 
