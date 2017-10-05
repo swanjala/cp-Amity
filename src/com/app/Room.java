@@ -39,6 +39,12 @@ public class Room {
     public void setRoomCategory(String roomCategory) {
 
         this.category = roomCategory;
+
+        if (category.equals("OFFICE")){
+          setCapacity(4);
+        }else if (category.equals("LIVING")){
+            setCapacity(6);
+        }
     }
     public void setRoomAllocation(String roomName){
 

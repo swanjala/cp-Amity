@@ -1,5 +1,9 @@
 package com.app;
 
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
+import jdk.nashorn.internal.ir.WhileNode;
+
+import java.math.RoundingMode;
 import java.sql.Array;
 import java.sql.SQLException;
 import java.util.*;
@@ -30,6 +34,8 @@ public class Home {
                 "Reallocate <First Name> <Second Name> <New Room Name> \n" +
                 "Save State <dbName> \n" +
                 "Load State <dbName>\n" +
+                "Print People \n" +
+                "Print Room \n" +
                 "Enter 'quit' to exit";
 
         return startText;
@@ -43,20 +49,20 @@ public class Home {
 
     private static List<Person> addPersonTokenizer(StringTokenizer addPersonST) {
 
-
         Room room = new Room();
         Person personVars = new Person();
         StringBuilder nameSb = new StringBuilder();
         Iterator<List<Room>> itr = roomInfo.iterator();
         List<Room> list;
         List<Room> roomNames = new ArrayList<>();
-        List<Room> randomizedName;
         List<Person> addPersonVarObject = new ArrayList<Person>();
+        HashMap<String, String> randomizedName = new HashMap<>();
+
+       // Create a set of variables by tokenizing the input string  using a space delimiter
 
         while (addPersonST.hasMoreTokens()) {
 
             for (int i = 0; i < 2; i++) {
-
                 String nameVal = addPersonST.nextToken();
                 nameSb.append(nameVal + " ");
 
@@ -70,44 +76,31 @@ public class Home {
 
         }
 
+        // Return a hashmap containing a random set of room names
 
-        while (itr.hasNext()) {
+        randomizedName = shuffleBox(roomInfo);
 
-            list = itr.next();
-            room.setRoomName(list.get(0).getRoomName());
-            room.setRoomCategory(list.get(0).getRoomCategory());
+        // Handle conditional room allocations
 
-            roomNames.add(room);
+        if (personVars.getAccomodationRequest().equals("Y") &&
+                !personVars.getCategory().equals("STAFF")) {
 
-        }
+            randomizedName = shuffleBox(roomInfo);
+            personVars.setAccomodationRoom(randomizedName.get("Living"));
+            personVars.setOfficeRoom(randomizedName.get("Office"));
 
-        randomizedName = shuffleBox(roomNames);
-
-
-        if (personVars.getAccomodationRequest().equals("Y")) {
-
-            do {
-
-                randomizedName = shuffleBox(roomNames);
-
-            } while (randomizedName.get(0).getRoomCategory().equals("OFFICE") && !randomizedName.equals(null));
-
-
-            personVars.setAccomodationRoom(randomizedName.get(0).getRoomName());
-
-        } else {
+        } else if (personVars.getAccomodationRequest().toUpperCase().trim().equals("N") &&
+                personVars.getCategory().trim().equals("FELLOW")) {
 
             personVars.setAccomodationRoom("None");
+            personVars.setOfficeRoom(randomizedName.get("Office"));
 
+        } else if (personVars.getCategory().equals("STAFF")) {
+
+            personVars.setAccomodationRoom("None");
+            personVars.setOfficeRoom(randomizedName.get("Office"));
         }
 
-        do {
-
-            randomizedName = shuffleBox(roomNames);
-
-        } while (randomizedName.get(0).getRoomCategory().equals("LIVING") && !randomizedName.equals(null));
-
-        personVars.setOfficeRoom(randomizedName.get(0).getRoomName());
 
         addPersonVarObject.add(personVars);
 
@@ -115,37 +108,74 @@ public class Home {
     }
 
     /**
-     * shuffleBox : Generates a room at random when a person is added to the
-     * application for the firsttime.
-     * It takes in a List of rooms, generates a random
+     * shuffleBox : Generates a hash set of rooms  at random when a person
+     * is added to the application.
+     * It takes in a Collection of Lists of rooms, generates a random
      * index , references a random room in the list and returns
      * it
-     * application
      *
-     * @param list
      * @return
      */
 
-    private static List<Room> shuffleBox(List<Room> list) {
+    private static HashMap<String, String> shuffleBox(Collection<List<Room>> roomList) {
 
-        Room room = new Room();
+        List<String> livingRoomNames = new ArrayList<>();
+        List<String> officeSpace = new ArrayList<>();
         List<Room> result = new ArrayList<>();
 
+        HashMap<String, String> roomValues = new HashMap<>();
+
+        Room room = new Room();
         Random randValue = new Random();
 
-        if (list.size() == 0) {
-            System.out.println("No rooms Available");
-            return null;
-        } else {
+        String livingRoomToAllocate;
+        String officeSpaceToAllocate;
+        int livingRoomIndex = 0;
+        int officeIndex = 0;
 
-            int index = randValue.nextInt(list.size());
 
-            room.setRoomName(list.get(index).getRoomName());
-            room.setRoomName(list.get(index).getRoomCategory());
-            result.add(room);
+        Iterator<List<Room>> iterator = roomList.iterator();
 
-            return result;
+        // Sort room collections by type
+
+        while (iterator.hasNext()) {
+
+            List<Room> roomIterator = iterator.next();
+
+
+            for (int index = 0; index < roomIterator.size(); index++) {
+
+                if (roomIterator.get(0).getRoomCategory().equals("LIVING")) {
+                    livingRoomNames.add(roomIterator.get(0).getRoomName());
+                } else if (roomIterator.get(0).getRoomCategory().equals("OFFICE")) {
+                    officeSpace.add(roomIterator.get(0).getRoomName());
+                }
+            }
         }
+
+        // Select rooms using conditional logic
+
+        if (livingRoomNames.size()== 0){
+
+            livingRoomToAllocate ="Sample Room";
+
+        }else {
+            livingRoomIndex = randValue.nextInt(livingRoomNames.size());
+            livingRoomToAllocate = livingRoomNames.get(livingRoomIndex);
+        }
+
+        if (officeSpace.size() ==0){
+            officeSpaceToAllocate = "Sample Space";
+        } else {
+            officeIndex = randValue.nextInt(officeSpace.size());
+            officeSpaceToAllocate = officeSpace.get(officeIndex);
+        }
+
+        roomValues.put("Office", officeSpaceToAllocate);
+        roomValues.put("Living", livingRoomToAllocate);
+        roomValues.put("NoRespose", "No Room");
+
+        return roomValues;
 
     }
 
@@ -232,6 +262,25 @@ public class Home {
 
     }
 
+    /**
+     * printRoomTokenizer: This method uses a space delimiter to break
+     * down an input String entered in a Commandline User Interface
+     * and parses it into an array of usable string variables that prints
+     * users allocated to a specified room.
+     */
+    private static  String printRoomTokenizer(String printRoomString){
+        String  printRoomVar = "";
+
+        StringTokenizer printRoomST = new StringTokenizer(printRoomString.substring(10));
+
+        while (printRoomST.hasMoreTokens()){
+            printRoomVar = printRoomST.nextToken();
+        }
+
+
+        return printRoomVar;
+    }
+
     public static void main(String[] arg) throws SQLException, ClassNotFoundException {
 
         List<Person> varList = new ArrayList<>();
@@ -247,6 +296,7 @@ public class Home {
 
             if (navContent.contains("Add Person")) {
 
+
                 StringTokenizer addPersonST = new StringTokenizer(navigationString.substring(10), " ");
 
                 int tokenCounter = addPersonST.countTokens();
@@ -254,11 +304,6 @@ public class Home {
                 if (tokenCounter < 3) {
 
                     System.out.println("Use this format \n" +
-                            "Add Person <First Name> <Second Name> <Category> <Wants Accomodation> ");
-
-                } else if (tokenCounter > 4) {
-
-                    System.out.println("Too many variables.Use this format \n" +
                             "Add Person <First Name> <Second Name> <Category> <Wants Accomodation> ");
 
                 } else if (tokenCounter == 3) {
@@ -272,24 +317,22 @@ public class Home {
                     varList = addPersonTokenizer(addPersonST);
                 }
 
-                if (varList.get(0).getAccomodationRequest().equals("N")) {
-                    varList.get(0).setAccomodationRoom("None");
-                }
-
-                PersonOps personOps = new PersonOps(varList.get(0).getName(), varList.get(0).getCategory()
-                        , varList.get(0).getAccomodationRequest(), varList.get(0).getAccomodationRoom(), varList.get(0).getAllocatedOffice());
+                PersonOps personOps = new PersonOps(varList.get(0).getName(), varList.get(0).getCategory().toUpperCase()
+                        , varList.get(0).getAccomodationRequest().toUpperCase(), varList.get(0).getAccomodationRoom(),
+                        varList.get(0).getAllocatedOffice());
 
                 List<Person> pData = personOps.addPerson();
                 personInfo.add(pData);
 
                 Iterator<List<Person>> itr = personInfo.iterator();
 
-                System.out.println("Name \t \t  Category \t Room");
+                System.out.println("Name \t \t  Category \t Room \t Office");
 
                 while (itr.hasNext()) {
                     List<Person> element = itr.next();
                     System.out.println(element.get(0).getName() + " " + element.get(0).getCategory() +
-                            " \t" + element.get(0).getAccomodationRoom());
+                            " \t" + element.get(0).getAccomodationRoom() + "\t \t"
+                            + element.get(0).getAllocatedOffice());
                 }
 
             }
@@ -298,7 +341,8 @@ public class Home {
 
                 List<Room> roomVarList = addRoomTokenizer(navigationString);
 
-                RoomOps roomOps = new RoomOps(roomVarList.get(0).getRoomName(), roomVarList.get(0).getRoomCategory());
+                RoomOps roomOps = new RoomOps(roomVarList.get(0).getRoomName(),
+                        roomVarList.get(0).getRoomCategory().toUpperCase());
                 List<Room> newRoom = roomOps.addRoom();
                 roomInfo.add(newRoom);
 
@@ -309,7 +353,6 @@ public class Home {
                     System.out.println(roomElements.get(0).getRoomName() + " " +
                             "" + roomElements.get(0).getRoomCategory() + " " +
                             "" + roomElements.get(0).getRoomCapacity());
-
                 }
 
             }
@@ -349,7 +392,33 @@ public class Home {
                     roomInfo.add(roomList);
                 }
 
-            } else {
+            }
+            if (navigationString.contains("Print People")){
+
+                PersonOps personOps = new PersonOps();
+
+                String peopleValue = personOps.printPeople(personInfo);
+
+                System.out.println(peopleValue);
+            }
+            if (navigationString.contains("Print Room")){
+
+                String printRoomVar = printRoomTokenizer(navigationString);
+
+                Iterator<List<Person>> iterator = personInfo.iterator();
+
+                System.out.println(printRoomVar + "\n" +"+++++++++++++++++++"+"\n");
+
+                while (iterator.hasNext()){
+                    List<Person> personElementList = iterator.next();
+
+                   if (personElementList.get(0).getAllocatedOffice().equals(printRoomVar)){
+                       System.out.println(personElementList.get(0).getName());
+                   }
+                }
+            }
+
+            else {
                 System.out.println("Enter Correct Commands, see description for help");
             }
         } while (!navigationString.equals("quit"));
