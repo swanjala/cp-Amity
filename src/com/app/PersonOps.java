@@ -35,7 +35,7 @@ public class PersonOps extends RoomOps {
 
     }
 
-    public PersonOps(String userInput, Collection<List<Person>> personInfo){
+    public PersonOps(String userInput, Collection<List<Person>> personInfo, Collection<List<Room>> roomInfo){
 
         StringTokenizer addPersonST = new StringTokenizer(userInput.substring(10), "");
         List<Person> varList  = new ArrayList<>();
@@ -56,14 +56,19 @@ public class PersonOps extends RoomOps {
             // The add person tokenizer is a clas on its own.
 
 
-            varList = addPersonTokenizer(addPersonST);
+            varList = addPersonTokenizer(addPersonST,roomInfo);
 
         } else {
 
-            varList = addPersonTokenizer(addPersonST);
+            varList = addPersonTokenizer(addPersonST, roomInfo);
         }
 
-
+        // Populate the setters
+        person.setName(varList.get(0).getName());
+        person.setCategory(varList.get(0).getCategory());
+        person.setAccomodationRequest(varList.get(0).getAccomodationRequest());
+        person.setAccomodationRoom(varList.get(0).getAccomodationRoom());
+        person.setOfficeRoom(varList.get(0).getAllocatedOffice());
 
     }
 
@@ -73,7 +78,7 @@ public class PersonOps extends RoomOps {
      * it into an array of usablevariables that adds a person to the application.
      */
 
-    private static List<Person> addPersonTokenizer(StringTokenizer addPersonST){
+    private static List<Person> addPersonTokenizer(StringTokenizer addPersonST, Collection<List<Room>> roomInfo){
 
         Room room = new Room();
         Person personVars = new Person();
