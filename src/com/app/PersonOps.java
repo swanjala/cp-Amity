@@ -1,5 +1,7 @@
 package com.app;
 
+import com.oracle.tools.packager.Log;
+
 import java.util.*;
 
 /**
@@ -37,10 +39,10 @@ public class PersonOps extends RoomOps {
 
     public PersonOps(String userInput, Collection<List<Person>> personInfo, Collection<List<Room>> roomInfo){
 
-        StringTokenizer addPersonST = new StringTokenizer(userInput.substring(10), "");
+        StringTokenizer addPersonST = new StringTokenizer(userInput.substring(10), " ");
+
         List<Person> varList  = new ArrayList<>();
 
-        // Determine the numner of tokens
         int tokenCounter = addPersonST.countTokens();
 
         if (tokenCounter < 3) {
@@ -53,17 +55,14 @@ public class PersonOps extends RoomOps {
             String navigationStringDefault =userInput.substring(10).concat("N");
             addPersonST = new StringTokenizer(navigationStringDefault);
 
-            // The add person tokenizer is a clas on its own.
-
-
             varList = addPersonTokenizer(addPersonST,roomInfo);
+
 
         } else {
 
             varList = addPersonTokenizer(addPersonST, roomInfo);
         }
 
-        // Populate the setters
         person.setName(varList.get(0).getName());
         person.setCategory(varList.get(0).getCategory());
         person.setAccomodationRequest(varList.get(0).getAccomodationRequest());
