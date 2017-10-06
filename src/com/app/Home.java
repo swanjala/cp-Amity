@@ -42,72 +42,6 @@ public class Home {
     }
 
     /**
-     * addPersonTokenizer: This method uses a space delimiter to break
-     * down an input String entered in Commandline User Interface and parses
-     * it into an array of usablevariables that adds a person to the application.
-     */
-
-    private static List<Person> addPersonTokenizer(StringTokenizer addPersonST) {
-
-        Room room = new Room();
-        Person personVars = new Person();
-        StringBuilder nameSb = new StringBuilder();
-        Iterator<List<Room>> itr = roomInfo.iterator();
-        List<Room> list;
-        List<Room> roomNames = new ArrayList<>();
-        List<Person> addPersonVarObject = new ArrayList<Person>();
-        HashMap<String, String> randomizedName = new HashMap<>();
-
-       // Create a set of variables by tokenizing the input string  using a space delimiter
-
-        while (addPersonST.hasMoreTokens()) {
-
-            for (int i = 0; i < 2; i++) {
-                String nameVal = addPersonST.nextToken();
-                nameSb.append(nameVal + " ");
-
-            }
-
-            String Category = addPersonST.nextToken();
-            String accomodation = addPersonST.nextToken().toUpperCase();
-            personVars.setName(nameSb.toString().trim());
-            personVars.setCategory(Category);
-            personVars.setAccomodationRequest(accomodation);
-
-        }
-
-        // Return a hashmap containing a random set of room names
-
-        randomizedName = shuffleBox(roomInfo);
-
-        // Handle conditional room allocations
-
-        if (personVars.getAccomodationRequest().equals("Y") &&
-                !personVars.getCategory().equals("STAFF")) {
-
-            randomizedName = shuffleBox(roomInfo);
-            personVars.setAccomodationRoom(randomizedName.get("Living"));
-            personVars.setOfficeRoom(randomizedName.get("Office"));
-
-        } else if (personVars.getAccomodationRequest().toUpperCase().trim().equals("N") &&
-                personVars.getCategory().trim().equals("FELLOW")) {
-
-            personVars.setAccomodationRoom("None");
-            personVars.setOfficeRoom(randomizedName.get("Office"));
-
-        } else if (personVars.getCategory().equals("STAFF")) {
-
-            personVars.setAccomodationRoom("None");
-            personVars.setOfficeRoom(randomizedName.get("Office"));
-        }
-
-
-        addPersonVarObject.add(personVars);
-
-        return addPersonVarObject;
-    }
-
-    /**
      * shuffleBox : Generates a hash set of rooms  at random when a person
      * is added to the application.
      * It takes in a Collection of Lists of rooms, generates a random
@@ -303,7 +237,7 @@ public class Home {
 
                 if (tokenCounter < 3) {
 
-                    System.out.println("Use this format \n" +
+                    System.out.printf( "Use this format \n" +
                             "Add Person <First Name> <Second Name> <Category> <Wants Accomodation> ");
 
                 } else if (tokenCounter == 3) {

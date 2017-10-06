@@ -49,7 +49,6 @@ public class Person extends Room {
         return allocatedOffice;
     }
     public String getName (){
-
         return name;
     }
 
