@@ -8,6 +8,10 @@ import java.sql.Array;
 import java.sql.SQLException;
 import java.util.*;
 
+import static com.app.RoomOps.addRoomTokenizer;
+import static com.app.RoomOps.printRoomTokenizer;
+import static com.app.RoomOps.reallocateRoomTokenizer;
+
 /**
  * Home class.
  * This class runs the application. It contains methods that invoke the respective
@@ -42,69 +46,6 @@ public class Home {
     }
 
 
-
-    /**
-     * addRoomTokenizer: This method uses a space delimiter to break
-     * down an input String entered in a Commandline User Interface
-     * and parses it into an array of usable variables that adds a
-     * new room to the application.
-     */
-
-    private static List<Room> addRoomTokenizer(String addRoomInput) {
-
-        List<Room> addRoomVarObject = new ArrayList<Room>();
-        Room roomVars = new Room();
-
-        StringTokenizer addRoomST = new StringTokenizer(addRoomInput.substring(9), " ");
-
-        while (addRoomST.hasMoreTokens()) {
-
-            String RoomNameVal = addRoomST.nextToken();
-            String RoomCategory = addRoomST.nextToken();
-
-            roomVars.setRoomName(RoomNameVal);
-            roomVars.setRoomCategory(RoomCategory);
-
-            addRoomVarObject.add(roomVars);
-
-        }
-
-        return addRoomVarObject;
-    }
-
-    /**
-     * reallocationTokenizer: This method uses a space delimiter to break
-     * down an input String entered in a Commandline User Interface
-     * and parses it into an array of usable string variables that moves
-     * a user from their initially assigned room to a new
-     * room in the application.
-     */
-
-    private static String[] reallocateRoomTokenizer(String reallocateRoomInput) {
-
-        String[] reallocateVarArray = new String[2];
-
-
-        StringTokenizer reallocateST = new StringTokenizer(reallocateRoomInput.substring(10), " ");
-        StringBuilder nameString = new StringBuilder();
-
-        while (reallocateST.hasMoreTokens()) {
-            for (int i = 0; i < 2; i++) {
-                String nameVal = reallocateST.nextToken();
-                nameString.append(nameVal + " ");
-
-            }
-            String personName = nameString.toString().trim();
-            String newRoomName = reallocateST.nextToken();
-
-
-            reallocateVarArray[0] = personName;
-            reallocateVarArray[1] = newRoomName;
-        }
-
-        return reallocateVarArray;
-    }
-
     /**
      * addRoomTokenizer: This method uses a space delimiter to break down an
      * input String entered in a Commandline User Interface and parses it
@@ -126,26 +67,9 @@ public class Home {
 
     }
 
-    /**
-     * printRoomTokenizer: This method uses a space delimiter to break
-     * down an input String entered in a Commandline User Interface
-     * and parses it into an array of usable string variables that prints
-     * users allocated to a specified room.
-     */
-    private static  String printRoomTokenizer(String printRoomString){
-        String  printRoomVar = "";
-
-        StringTokenizer printRoomST = new StringTokenizer(printRoomString.substring(10));
-
-        while (printRoomST.hasMoreTokens()){
-            printRoomVar = printRoomST.nextToken();
-        }
-
-
-        return printRoomVar;
-    }
-
     public static void printer(Collection<List<Person>> personInfo){
+
+        System.out.println(" This is the iterator size" + personInfo.size());
 
         Iterator<List<Person>> itr = personInfo.iterator();
         List<Person> element =itr.next();
@@ -180,6 +104,8 @@ public class Home {
                 personInfo.add(pData);
 
                 System.out.println("Name \t \t  Category \t Room \t Office");
+
+                System.out.println("This is the size" + personInfo.size());
 
                 printer(personInfo);
 
