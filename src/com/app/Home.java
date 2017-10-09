@@ -1,16 +1,9 @@
 package com.app;
 
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
-import jdk.nashorn.internal.ir.WhileNode;
-
-import java.math.RoundingMode;
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.*;
 
-import static com.app.RoomOps.addRoomTokenizer;
-import static com.app.RoomOps.printRoomTokenizer;
-import static com.app.RoomOps.reallocateRoomTokenizer;
+import static com.app.VaribleParser.*;
 
 /**
  * Home class.
@@ -45,27 +38,6 @@ public class Home {
         return startText;
     }
 
-
-    /**
-     * addRoomTokenizer: This method uses a space delimiter to break down an
-     * input String entered in a Commandline User Interface and parses it
-     * to a String value set as a database name.
-     */
-
-    private static String saveLoadStateTokenizer(String saveStateInput) {
-
-        List<String> saveLoadStateParamList = new ArrayList<String>();
-        StringTokenizer saveStateST = new StringTokenizer(saveStateInput.substring(10), " ");
-        StringBuilder dbnameSB = new StringBuilder();
-
-        while (saveStateST.hasMoreTokens()) {
-            String databaseName = saveStateST.nextToken();
-            dbnameSB.append(databaseName);
-        }
-
-        return dbnameSB.toString();
-
-    }
 
     public static void printer(Collection<List<Person>> personInfo){
 

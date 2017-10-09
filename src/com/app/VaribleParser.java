@@ -11,7 +11,7 @@ public class VaribleParser {
      * it into an array of usablevariables that adds a person to the application.
      */
 
-    private static List<Person> addPersonTokenizer(StringTokenizer addPersonST, Collection<List<Room>> roomInfo){
+    public static List<Person> addPersonTokenizer(StringTokenizer addPersonST, Collection<List<Room>> roomInfo){
 
         Room room = new Room();
         Person personVars = new Person();
@@ -64,6 +64,74 @@ public class VaribleParser {
 
 
         return addPersonVarObject;
+    }
+
+    /**
+     * shuffleBox : Generates a hash set of rooms  at random when a person
+     * is added to the application.
+     * It takes in a Collection of Lists of rooms, generates a random
+     * index , references a random room in the list and returns
+     * it
+     *
+     * @return
+     */
+
+    public static HashMap<String, String> shuffleBox(Collection<List<Room>> roomList) {
+
+        List<String> livingRoomNames = new ArrayList<>();
+        List<String> officeSpace = new ArrayList<>();
+        List<Room> result = new ArrayList<>();
+
+        HashMap<String, String> roomValues = new HashMap<>();
+
+        Room room = new Room();
+        Random randValue = new Random();
+
+        String livingRoomToAllocate;
+        String officeSpaceToAllocate;
+        int livingRoomIndex = 0;
+        int officeIndex = 0;
+
+
+        Iterator<List<Room>> iterator = roomList.iterator();
+
+        while (iterator.hasNext()) {
+
+            List<Room> roomIterator = iterator.next();
+
+
+            for (int index = 0; index < roomIterator.size(); index++) {
+
+                if (roomIterator.get(0).getRoomCategory().equals("LIVING")) {
+                    livingRoomNames.add(roomIterator.get(0).getRoomName());
+                } else if (roomIterator.get(0).getRoomCategory().equals("OFFICE")) {
+                    officeSpace.add(roomIterator.get(0).getRoomName());
+                }
+            }
+        }
+
+        if (livingRoomNames.size()== 0){
+
+            livingRoomToAllocate ="Sample Room";
+
+        }else {
+            livingRoomIndex = randValue.nextInt(livingRoomNames.size());
+            livingRoomToAllocate = livingRoomNames.get(livingRoomIndex);
+        }
+
+        if (officeSpace.size() ==0){
+            officeSpaceToAllocate = "Sample Space";
+        } else {
+            officeIndex = randValue.nextInt(officeSpace.size());
+            officeSpaceToAllocate = officeSpace.get(officeIndex);
+        }
+
+        roomValues.put("Office", officeSpaceToAllocate);
+        roomValues.put("Living", livingRoomToAllocate);
+        roomValues.put("NoRespose", "No Room");
+
+        return roomValues;
+
     }
 
     /**
@@ -128,8 +196,6 @@ public class VaribleParser {
         return reallocateVarArray;
     }
 
-
-
     /**
      * printRoomTokenizer: This method uses a space delimiter to break
      * down an input String entered in a Commandline User Interface
@@ -147,6 +213,29 @@ public class VaribleParser {
 
 
         return printRoomVar;
+    }
+
+
+
+    /**
+     * addRoomTokenizer: This method uses a space delimiter to break down an
+     * input String entered in a Commandline User Interface and parses it
+     * to a String value set as a database name.
+     */
+
+    public static String saveLoadStateTokenizer(String saveStateInput) {
+
+        List<String> saveLoadStateParamList = new ArrayList<String>();
+        StringTokenizer saveStateST = new StringTokenizer(saveStateInput.substring(10), " ");
+        StringBuilder dbnameSB = new StringBuilder();
+
+        while (saveStateST.hasMoreTokens()) {
+            String databaseName = saveStateST.nextToken();
+            dbnameSB.append(databaseName);
+        }
+
+        return dbnameSB.toString();
+
     }
 
 
