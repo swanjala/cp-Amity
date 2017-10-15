@@ -131,4 +131,19 @@ public class PersonOps extends VaribleParser{
         return sb.toString();
     }
 
+
+}
+/**
+ * Sub-Class that deals with all the fellow information
+ *
+ */
+
+class Fellow  {
+
+
+
+        }
+
+class Staff {
+
 }

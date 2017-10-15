@@ -41,17 +41,15 @@ public class Home {
 
     public static void printer(Collection<List<Person>> personInfo){
 
-        System.out.println(" This is the iterator size" + personInfo.size());
-
         Iterator<List<Person>> itr = personInfo.iterator();
-        List<Person> element =itr.next();
 
         while (itr.hasNext()) {
+            List<Person> element =itr.next();
+
             System.out.println(element.get(0).getName() + " " + element.get(0).getCategory() +
                     " \t" + element.get(0).getAccomodationRoom() + "\t \t"
                     + element.get(0).getAllocatedOffice());
         }
-
 
     }
 
@@ -76,8 +74,6 @@ public class Home {
                 personInfo.add(pData);
 
                 System.out.println("Name \t \t  Category \t Room \t Office");
-
-                System.out.println("This is the size" + personInfo.size());
 
                 printer(personInfo);
 

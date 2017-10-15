@@ -54,21 +54,21 @@ public class dbHelper {
     public boolean createRoomTable(String dbName) {
 
 
-        String url = "jdbc:sqlite:" + dbName + ".db";
+            String url = "jdbc:sqlite:" + dbName + ".db";
 
-        try {
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection(url);
-            statement = connection.createStatement();
-            sqlStatement = "CREATE TABLE ROOMS(NAME TEXT NOT NULL, CATEGORY TEXT NOT NULL)";
-            statement.execute(sqlStatement);
-            statement.close();
-            connection.close();
+            try {
+                Class.forName("org.sqlite.JDBC");
+                connection = DriverManager.getConnection(url);
+                statement = connection.createStatement();
+                sqlStatement = "CREATE TABLE ROOMS(NAME TEXT NOT NULL, CATEGORY TEXT NOT NULL)";
+                statement.execute(sqlStatement);
+                statement.close();
+                connection.close();
 
-        } catch (Exception e) {
+            } catch (Exception e) {
 
-            System.out.println(e.getMessage());
-            return false;
+                System.out.println(e.getMessage());
+                return false;
         }
         return true;
     }
