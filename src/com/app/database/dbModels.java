@@ -1,15 +1,15 @@
-package com.app.Database;
+package com.app.database;
 
-import com.app.Fields.Person;
-import com.app.Ops.PersonOps;
-import com.app.Fields.Room;
-import com.app.Ops.RoomOps;
+import com.app.fields.Person;
+import com.app.ops.PersonOps;
+import com.app.fields.Room;
+import com.app.ops.RoomOps;
 
 import java.sql.*;
 import java.util.*;
 
 /**
- * Database class that executes database commands to save and load Amity state
+ * Class executes database commands to save and load Amity state
  * data from a specified database
  */
 public class dbModels {

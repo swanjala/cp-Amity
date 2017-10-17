@@ -1,7 +1,7 @@
  package com.app.Test.com.app;
 
-import com.app.Ops.RoomOps;
-import com.app.Fields.Room;
+import com.app.ops.RoomOps;
+import com.app.fields.Room;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;

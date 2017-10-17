@@ -1,4 +1,4 @@
-package com.app.Fields;
+package com.app.fields;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

@@ -1,8 +1,8 @@
-package com.app.Ops;
+package com.app.ops;
 
-import com.app.App.VaribleParser;
-import com.app.Fields.Person;
-import com.app.Fields.Room;
+import com.app.app.VaribleParser;
+import com.app.fields.Person;
+import com.app.fields.Room;
 
 import java.util.*;
 
@@ -132,5 +132,20 @@ public class PersonOps extends VaribleParser{
 
         return sb.toString();
     }
+
+
+}
+/**
+ * Sub-Class that deals with all the fellow information
+ *
+ */
+
+class Fellow  {
+
+
+
+        }
+
+class Staff {
 
 }

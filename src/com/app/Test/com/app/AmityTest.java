@@ -1,10 +1,10 @@
 package com.app.Test.com.app;
 
-import com.app.Database.dbModels;
-import com.app.Fields.Person;
-import com.app.Fields.Room;
-import com.app.Ops.PersonOps;
-import com.app.Ops.RoomOps;
+import com.app.database.dbModels;
+import com.app.fields.Person;
+import com.app.fields.Room;
+import com.app.ops.PersonOps;
+import com.app.ops.RoomOps;
 import org.junit.Test;
 
 import java.sql.SQLException;

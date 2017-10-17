@@ -1,15 +1,15 @@
-package com.app.App;
+package com.app.app;
 
-import com.app.Database.dbModels;
-import com.app.Fields.Person;
-import com.app.Ops.PersonOps;
-import com.app.Fields.Room;
-import com.app.Ops.RoomOps;
+import com.app.database.dbModels;
+import com.app.fields.Person;
+import com.app.ops.PersonOps;
+import com.app.fields.Room;
+import com.app.ops.RoomOps;
 
 import java.sql.SQLException;
 import java.util.*;
 
-import static com.app.App.VaribleParser.*;
+import static com.app.app.VaribleParser.*;
 
 /**
  * Home class.
@@ -47,17 +47,15 @@ public class Home {
 
     public static void printer(Collection<List<Person>> personInfo){
 
-        System.out.println(" This is the iterator size" + personInfo.size());
-
         Iterator<List<Person>> itr = personInfo.iterator();
-        List<Person> element =itr.next();
 
         while (itr.hasNext()) {
+            List<Person> element =itr.next();
+
             System.out.println(element.get(0).getName() + " " + element.get(0).getCategory() +
                     " \t" + element.get(0).getAccomodationRoom() + "\t \t"
                     + element.get(0).getAllocatedOffice());
         }
-
 
     }
 
@@ -82,8 +80,6 @@ public class Home {
                 personInfo.add(pData);
 
                 System.out.println("Name \t \t  Category \t Room \t Office");
-
-                System.out.println("This is the size" + personInfo.size());
 
                 printer(personInfo);
 
@@ -171,6 +167,7 @@ public class Home {
             }
 
             else {
+
                 System.out.println("Enter Correct Commands, see description for help");
             }
         } while (!navigationString.equals("quit"));

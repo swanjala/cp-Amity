@@ -1,7 +1,7 @@
-package com.app.App;
+package com.app.app;
 
-import com.app.Fields.Person;
-import com.app.Fields.Room;
+import com.app.fields.Person;
+import com.app.fields.Room;
 
 import java.util.*;
 
