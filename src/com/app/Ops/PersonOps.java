@@ -1,6 +1,8 @@
-package com.app;
+package com.app.Ops;
 
-import com.app.VaribleParser;
+import com.app.App.VaribleParser;
+import com.app.Fields.Person;
+import com.app.Fields.Room;
 
 import java.util.*;
 

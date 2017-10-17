@@ -1,8 +1,7 @@
 package com.app.Test.com.app;
 
-import com.app.dbHelper;
+import com.app.Database.dbHelper;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.*;
 
 import static org.junit.Assert.*;

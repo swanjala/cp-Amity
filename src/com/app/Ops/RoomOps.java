@@ -1,4 +1,6 @@
-package com.app;
+package com.app.Ops;
+
+import com.app.Fields.Room;
 
 import java.util.*;
 
@@ -45,6 +47,5 @@ public class RoomOps extends Room {
         roomList.add(room);
         return roomList;
     }
-
 
 }

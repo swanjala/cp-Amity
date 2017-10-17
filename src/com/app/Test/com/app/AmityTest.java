@@ -1,7 +1,10 @@
 package com.app.Test.com.app;
 
-import com.app.*;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.app.Database.dbModels;
+import com.app.Fields.Person;
+import com.app.Fields.Room;
+import com.app.Ops.PersonOps;
+import com.app.Ops.RoomOps;
 import org.junit.Test;
 
 import java.sql.SQLException;

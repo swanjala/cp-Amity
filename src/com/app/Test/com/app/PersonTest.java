@@ -1,7 +1,7 @@
 package com.app.Test.com.app;
 
-import com.app.Person;
-import com.app.PersonOps;
+import com.app.Fields.Person;
+import com.app.Ops.PersonOps;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

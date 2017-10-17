@@ -1,9 +1,15 @@
-package com.app;
+package com.app.App;
+
+import com.app.Database.dbModels;
+import com.app.Fields.Person;
+import com.app.Ops.PersonOps;
+import com.app.Fields.Room;
+import com.app.Ops.RoomOps;
 
 import java.sql.SQLException;
 import java.util.*;
 
-import static com.app.VaribleParser.*;
+import static com.app.App.VaribleParser.*;
 
 /**
  * Home class.

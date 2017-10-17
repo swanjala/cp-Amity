@@ -1,4 +1,9 @@
-package com.app;
+package com.app.Database;
+
+import com.app.Fields.Person;
+import com.app.Ops.PersonOps;
+import com.app.Fields.Room;
+import com.app.Ops.RoomOps;
 
 import java.sql.*;
 import java.util.*;
