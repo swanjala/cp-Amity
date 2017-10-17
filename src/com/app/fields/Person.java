@@ -11,7 +11,6 @@ public class Person extends Room {
 
     private String name,category,allocatedRoom,allocatedOffice;
     private String wants_accomodation;
-    List <String> personList = new ArrayList<String>();
     Collection <List<Person>> peopleCollection = new ArrayList<>();
 
 

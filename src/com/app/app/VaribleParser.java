@@ -16,14 +16,10 @@ public class VaribleParser {
 
     public static List<Person> addPersonTokenizer(StringTokenizer addPersonST, Collection<List<Room>> roomInfo){
 
-        Room room = new Room();
         Person personVars = new Person();
         StringBuilder nameSb = new StringBuilder();
-        Iterator<List<Room>> itr = roomInfo.iterator();
-        List<Room> list;
-        List<Room> roomNames = new ArrayList<>();
         List<Person> addPersonVarObject = new ArrayList<Person>();
-        HashMap<String, String> randomizedName = new HashMap<>();
+        HashMap<String, String> randomizedName;
 
         while (addPersonST.hasMoreTokens()) {
 
@@ -83,11 +79,8 @@ public class VaribleParser {
 
         List<String> livingRoomNames = new ArrayList<>();
         List<String> officeSpace = new ArrayList<>();
-        List<Room> result = new ArrayList<>();
 
         HashMap<String, String> roomValues = new HashMap<>();
-
-        Room room = new Room();
         Random randValue = new Random();
 
         String livingRoomToAllocate;
@@ -228,7 +221,6 @@ public class VaribleParser {
 
     public static String saveLoadStateTokenizer(String saveStateInput) {
 
-        List<String> saveLoadStateParamList = new ArrayList<String>();
         StringTokenizer saveStateST = new StringTokenizer(saveStateInput.substring(10), " ");
         StringBuilder dbnameSB = new StringBuilder();
 

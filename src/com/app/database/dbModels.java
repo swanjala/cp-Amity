@@ -1,9 +1,7 @@
 package com.app.database;
 
 import com.app.fields.Person;
-import com.app.ops.PersonOps;
 import com.app.fields.Room;
-import com.app.ops.RoomOps;
 
 import java.sql.*;
 import java.util.*;
@@ -15,11 +13,7 @@ import java.util.*;
 public class dbModels {
 
     private Connection connection;
-    private Statement statement;
-    private String message = null;
-    private PersonOps personOps = new PersonOps();
     private dbHelper dHelper = new dbHelper();
-    private RoomOps roomOps = new RoomOps();
     private Person person = new Person();
     private Room room = new Room();
 
@@ -40,7 +34,7 @@ public class dbModels {
     public Boolean saveState(String dbName, Collection<List<Person>> personData, Collection<List<Room>> roomData)
             throws SQLException, ClassNotFoundException {
 
-        initializeDb(dbName); //Initialize DB
+        initializeDb(dbName);
         String savePeopleSqlStatement = "";
         String saveRoomSqlStatement = "";
 

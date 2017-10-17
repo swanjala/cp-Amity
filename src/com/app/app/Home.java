@@ -20,11 +20,8 @@ import static com.app.app.VaribleParser.*;
  */
 
 public class Home {
-    private static String startText;
-    private static String navigationString = "";
-    private static String navContent = "";
+    private static String startText,navigationString = "", navContent = "";
     private static Scanner input;
-    private static List<Person> personList = new ArrayList<>();
     private static Collection<List<Person>> personInfo = new ArrayList<List<Person>>();
     private static Collection<List<Room>> roomInfo = new ArrayList<List<Room>>();
 
@@ -61,7 +58,6 @@ public class Home {
 
     public static void main(String[] arg) throws SQLException, ClassNotFoundException {
 
-        List<Person> varList = new ArrayList<>();
         input = new Scanner(System.in);
         System.out.println(" " + start());
 

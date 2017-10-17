@@ -16,16 +16,6 @@ public class PersonOps extends VaribleParser{
     private Person person = new Person();
     private StringBuilder sb = new StringBuilder();
 
-    public PersonOps(String name,String category, String wantsAccomodation, String roomAllocatedName,String officeSpace){
-
-        person.setName(name);
-        person.setCategory(category);
-        person.setAccomodationRequest("Y");
-        person.setAccomodationRoom(roomAllocatedName);
-        person.setOfficeRoom(officeSpace);
-
-
-    }
 
     public PersonOps() {
 
@@ -132,20 +122,5 @@ public class PersonOps extends VaribleParser{
 
         return sb.toString();
     }
-
-
-}
-/**
- * Sub-Class that deals with all the fellow information
- *
- */
-
-class Fellow  {
-
-
-
-        }
-
-class Staff {
 
 }

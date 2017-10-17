@@ -20,11 +20,11 @@ public class AmityTest {
     Collection<List<Person>> personData= new ArrayList<>();
     Collection<List<Room>> roomData= new ArrayList<>();
     private dbModels models = new dbModels();
-    PersonOps personOps = new PersonOps("ELIUD KIMANI","STAFF","Y","PLATFORM","NONE");
+    PersonOps personOps = new PersonOps("Add Person ELIUD KIMANI STAFF Y ",personData,roomData);
     RoomOps roomOps = new RoomOps("VALHALLA","OFFICE");
     private List<Person> personList = personOps.addPerson();
     private List<Room> roomList = roomOps.addRoom();
-    private boolean saveStateValue,loadStateValue;
+    private boolean saveStateValue;
 
 
     /**
