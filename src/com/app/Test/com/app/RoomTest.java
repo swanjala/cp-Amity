@@ -1,7 +1,7 @@
  package com.app.Test.com.app;
 
-import com.app.RoomOps;
-import com.app.Room;
+import com.app.ops.RoomOps;
+import com.app.fields.Room;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
@@ -35,7 +35,6 @@ import static org.junit.Assert.assertEquals;
      @Test
     public void test_that_user_is_notified_about_wrong_room_category() {
 
-         RoomOps roomOps = new RoomOps("VALHALLA","STORAGE");
          assertEquals("Enter the correct category",systemOutRule.getLog().trim());
 
     }

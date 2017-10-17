@@ -1,4 +1,6 @@
-package com.app;
+package com.app.ops;
+
+import com.app.fields.Room;
 
 import java.util.*;
 
@@ -7,19 +9,17 @@ import java.util.*;
  *
  */
 
-public class RoomOps extends Room {
+public class RoomOps {
 
     ArrayList<List<Room>> roomListData = new ArrayList<List<Room>>();
     public List<Room> roomList = new ArrayList<Room>();
     private int capacity = 0;
     private String message;
     private Room room = new Room();
-
-	/* Method that adds a new room to the application*/
-
 	public RoomOps(){
 
     }
+
     public RoomOps(String roomName, String roomCategory) {
 
             room.setRoomName(roomName);
@@ -39,6 +39,7 @@ public class RoomOps extends Room {
 
             }
         }
+
 
     public List<Room> addRoom(){
 
