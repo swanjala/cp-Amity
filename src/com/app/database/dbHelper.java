@@ -1,4 +1,4 @@
-package com.app;
+package com.app.database;
 
 import java.sql.*;
 
@@ -54,13 +54,34 @@ public class dbHelper {
     public boolean createRoomTable(String dbName) {
 
 
+            String url = "jdbc:sqlite:" + dbName + ".db";
+
+            try {
+                Class.forName("org.sqlite.JDBC");
+                connection = DriverManager.getConnection(url);
+                statement = connection.createStatement();
+                sqlStatement = "CREATE TABLE ROOMS(NAME TEXT NOT NULL, CATEGORY TEXT NOT NULL)";
+                statement.execute(sqlStatement);
+                statement.close();
+                connection.close();
+
+            } catch (Exception e) {
+
+                System.out.println(e.getMessage());
+                return false;
+        }
+        return true;
+    }
+
+
+    public boolean dropTables(String dbName){
         String url = "jdbc:sqlite:" + dbName + ".db";
 
         try {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection(url);
             statement = connection.createStatement();
-            sqlStatement = "CREATE TABLE ROOMS(NAME TEXT NOT NULL, CATEGORY TEXT NOT NULL)";
+            sqlStatement = "DROP TABLE IF EXISTS PEOPLE,ROOMS";
             statement.execute(sqlStatement);
             statement.close();
             connection.close();

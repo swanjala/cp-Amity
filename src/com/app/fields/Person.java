@@ -1,4 +1,4 @@
-package com.app;
+package com.app.fields;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,7 +11,6 @@ public class Person extends Room {
 
     private String name,category,allocatedRoom,allocatedOffice;
     private String wants_accomodation;
-    List <String> personList = new ArrayList<String>();
     Collection <List<Person>> peopleCollection = new ArrayList<>();
 
 
@@ -49,7 +48,6 @@ public class Person extends Room {
         return allocatedOffice;
     }
     public String getName (){
-
         return name;
     }
 

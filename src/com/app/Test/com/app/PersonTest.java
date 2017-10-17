@@ -1,7 +1,8 @@
 package com.app.Test.com.app;
 
-import com.app.Person;
-import com.app.PersonOps;
+import com.app.fields.Person;
+import com.app.fields.Room;
+import com.app.ops.PersonOps;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -14,19 +15,16 @@ import static org.junit.Assert.assertEquals;
 public class PersonTest {
 
     private static List<Person> peopleList = new ArrayList<Person>();
+    private static Collection<List<Room>> allRoomsData = new ArrayList<>();
     private static Collection <List<Person>> allPeopleData= new ArrayList<>();
-    protected static String name,category,requestRoom,roomAllocated;
-    private static PersonOps personOps;
-    private static PersonOps reallocate;
-    private static String result;
-    private static String output;
-    private static String unallocatedOutput;
+    protected static String  category;
+    private static PersonOps personOps,reallocate;
+    private static String result,output,unallocatedOutput;
 
     @BeforeClass
     public static void setUp(){
 
-         personOps = new PersonOps("SAMMY WANJALA","FELLOW",
-                "Y","NARNIA","SHELL");
+         personOps = new PersonOps("Add Person SAMMY WANJALA FELLOW Y",allPeopleData,allRoomsData);
          reallocate = new PersonOps("SAMMY WANJALA",
                  "HOGWARTS",allPeopleData);
 

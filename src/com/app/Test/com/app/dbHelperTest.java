@@ -1,17 +1,28 @@
 package com.app.Test.com.app;
 
-import com.app.dbHelper;
+import com.app.database.dbHelper;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.*;
 
 import static org.junit.Assert.*;
 
 public class dbHelperTest {
 
-    private  String testDB = "renaomd";
-    dbHelper helper = new dbHelper();
-    boolean createDb = helper.createDB(testDB);
+    private static String testDB = "bdName";
+    private static dbHelper helper = new dbHelper();
+
+    static boolean createDb;
+
+
+    @BeforeClass
+    public static void setUp(){
+       createDb = helper.createDB(testDB);
+    }
+
+    @AfterClass
+    public static void tearDown(){
+        helper.dropTables(testDB);
+    }
 
     /**
      * Test that the database has been created successfully

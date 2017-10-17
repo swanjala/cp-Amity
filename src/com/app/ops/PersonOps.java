@@ -1,30 +1,21 @@
-package com.app;
+package com.app.ops;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import com.app.app.VaribleParser;
+import com.app.fields.Person;
+import com.app.fields.Room;
+
+import java.util.*;
 
 /**
  * Class that conatains all the functionalities arounf people in Amity
  */
 
-public class PersonOps extends RoomOps {
+public class PersonOps extends VaribleParser{
 
     public  List<Person> peopleList =  new ArrayList<Person>();
     private Person person = new Person();
     private StringBuilder sb = new StringBuilder();
 
-    public PersonOps(String name,String category, String wantsAccomodation, String roomAllocatedName,String officeSpace){
-
-        person.setName(name);
-        person.setCategory(category);
-        person.setAccomodationRequest("Y");
-        person.setAccomodationRoom(roomAllocatedName);
-        person.setOfficeRoom(officeSpace);
-
-
-    }
 
     public PersonOps() {
 
@@ -35,6 +26,40 @@ public class PersonOps extends RoomOps {
         person.setName(personName);
         person.setAccomodationRoom(newRoom);
         person.setAllPeopleCollection(personInfo);
+
+    }
+
+    public PersonOps(String userInput, Collection<List<Person>> personInfo, Collection<List<Room>> roomInfo){
+
+        StringTokenizer addPersonST = new StringTokenizer(userInput.substring(10), " ");
+
+        List<Person> varList  = new ArrayList<>();
+
+        int tokenCounter = addPersonST.countTokens();
+
+        if (tokenCounter < 3) {
+
+            System.out.printf( "Use this format \n" +
+                    "Add Person <First Name> <Second Name> <Category> <Wants Accomodation> ");
+
+        } else if (tokenCounter == 3) {
+
+            String navigationStringDefault =userInput.substring(10).concat("N");
+            addPersonST = new StringTokenizer(navigationStringDefault);
+
+            varList = addPersonTokenizer(addPersonST,roomInfo);
+
+
+        } else {
+
+            varList = addPersonTokenizer(addPersonST, roomInfo);
+        }
+
+        person.setName(varList.get(0).getName());
+        person.setCategory(varList.get(0).getCategory());
+        person.setAccomodationRequest(varList.get(0).getAccomodationRequest());
+        person.setAccomodationRoom(varList.get(0).getAccomodationRoom());
+        person.setOfficeRoom(varList.get(0).getAllocatedOffice());
 
     }
 
