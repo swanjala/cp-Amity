@@ -79,9 +79,7 @@ public class Home {
 
                 printer(personInfo);
 
-            }
-
-            if (navContent.contains("ADD ROOM")) {
+            } else  if (navContent.contains("ADD ROOM")) {
 
                 List<Room> roomVarList = addRoomTokenizer(navigationString);
 
@@ -99,8 +97,7 @@ public class Home {
                             "" + roomElements.get(0).getRoomCapacity());
                 }
 
-            }
-            if (navigationString.contains("REALLOCATE")) {
+            } else if(navigationString.contains("REALLOCATE")) {
 
                 String[] roomVars = reallocateRoomTokenizer(navigationString);
 
@@ -109,16 +106,14 @@ public class Home {
                 PersonOps personOps = new PersonOps(roomVars[0], roomVars[1], personInfo);
                 personOps.reallocatePerson();
 
-            }
-            if (navigationString.contains("SAVE STATE")) {
+            }else if (navigationString.contains("SAVE STATE")) {
 
                 String dbName = saveLoadStateTokenizer(navigationString);
 
                 dbModels models = new dbModels();
                 models.saveState(dbName, personInfo, roomInfo);
 
-            }
-            if (navigationString.contains("LOAD STATE")) {
+            }else if (navigationString.contains("LOAD STATE")) {
 
                 String dbName = saveLoadStateTokenizer(navigationString);
 
@@ -136,16 +131,15 @@ public class Home {
                     roomInfo.add(roomList);
                 }
 
-            }
-            if (navigationString.contains("PRINT PEOPLE")){
+            } else if (navigationString.contains("PRINT PEOPLE")){
 
                 PersonOps personOps = new PersonOps();
 
                 String peopleValue = personOps.printPeople(personInfo);
 
                 System.out.println(peopleValue);
-            }
-            if (navigationString.contains("PRINT ROOM")){
+
+            }else if (navigationString.contains("PRINT ROOM")){
 
                 String printRoomVar = printRoomTokenizer(navigationString);
 
@@ -160,13 +154,15 @@ public class Home {
                        System.out.println(personElementList.get(0).getName());
                    }
                 }
+            }else if(navigationString.contains("QUIT")){
+                System.exit(0);
             }
 
             else {
 
                 System.out.println("Enter Correct Commands, see description for help");
             }
-        } while (!navigationString.equals("quit"));
+        } while (!navigationString.equals("QUIT"));
 
         System.exit(0);
 
