@@ -62,13 +62,13 @@ public class Home {
         System.out.println(" " + start());
 
         do {
-            navigationString = input.nextLine();
+            navigationString = input.nextLine().toUpperCase();
 
             if (navigationString.length() > 12) {
                 navContent = navigationString.substring(0, 12);
             }
 
-            if (navContent.contains("Add Person")) {
+            if (navContent.contains("ADD PERSON")) {
 
                 PersonOps personOps = new PersonOps(navigationString,personInfo,roomInfo);
 
@@ -81,7 +81,7 @@ public class Home {
 
             }
 
-            if (navContent.contains("Add Room")) {
+            if (navContent.contains("ADD ROOM")) {
 
                 List<Room> roomVarList = addRoomTokenizer(navigationString);
 
@@ -100,7 +100,7 @@ public class Home {
                 }
 
             }
-            if (navigationString.contains("Reallocate")) {
+            if (navigationString.contains("REALLOCATE")) {
 
                 String[] roomVars = reallocateRoomTokenizer(navigationString);
 
@@ -110,7 +110,7 @@ public class Home {
                 personOps.reallocatePerson();
 
             }
-            if (navigationString.contains("Save State")) {
+            if (navigationString.contains("SAVE STATE")) {
 
                 String dbName = saveLoadStateTokenizer(navigationString);
 
@@ -118,7 +118,7 @@ public class Home {
                 models.saveState(dbName, personInfo, roomInfo);
 
             }
-            if (navigationString.contains("Load State")) {
+            if (navigationString.contains("LOAD STATE")) {
 
                 String dbName = saveLoadStateTokenizer(navigationString);
 
@@ -137,7 +137,7 @@ public class Home {
                 }
 
             }
-            if (navigationString.contains("Print People")){
+            if (navigationString.contains("PRINT PEOPLE")){
 
                 PersonOps personOps = new PersonOps();
 
@@ -145,7 +145,7 @@ public class Home {
 
                 System.out.println(peopleValue);
             }
-            if (navigationString.contains("Print Room")){
+            if (navigationString.contains("PRINT ROOM")){
 
                 String printRoomVar = printRoomTokenizer(navigationString);
 
