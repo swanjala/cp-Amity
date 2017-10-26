@@ -72,8 +72,8 @@ public class Home {
 
                 PersonOps personOps = new PersonOps(navigationString,personInfo,roomInfo);
 
-                List<Person> pData = personOps.addPerson();
-                personInfo.add(pData);
+                List<Person> personData = personOps.addPerson();
+                personInfo.add(personData);
 
                 System.out.println("Name \t \t  Category \t Room \t Office");
 
