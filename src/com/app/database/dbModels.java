@@ -6,6 +6,7 @@ import com.app.fields.Room;
 import java.sql.*;
 import java.util.*;
 
+
 /**
  * Class executes database commands to save and load Amity state
  * data from a specified database
@@ -97,9 +98,11 @@ public class dbModels {
      */
 
     public HashMap<String, List> loadState(String dbName) throws SQLException, ClassNotFoundException {
+
         HashMap<String, List> data = new HashMap<>();
         String dbUrl = "jdbc:sqlite:" + dbName + ".db";
 
+        Collection<List<Person>> personLoadData = new ArrayList<>();
         List<Person> personList = new ArrayList<>();
         List<Room> roomList = new ArrayList<>();
 
@@ -118,8 +121,33 @@ public class dbModels {
                 person.setName(peopleResultSet.getString("NAME").trim());
                 person.setCategory(peopleResultSet.getString("CATEGORY").trim());
                 person.setAccomodationRoom(peopleResultSet.getString("ACCOMODATION").trim());
+
+                System.out.println(" names: " + person.getName());
+
+
                 personList.add(person);
+                personLoadData.add(personList);
+
+
             }
+
+            Iterator<List<Person>> personiter = personLoadData.iterator();
+
+            while (personiter.hasNext()){
+                List<Person> element = personiter.next();
+                System.out.println("this is executing" + element.get(0).getName());
+
+
+                for (int i = 0; i < element.size() ; i++) {
+
+                    System.out.println("The person name "+ i +" :"+ element.get(0).getName());
+                }
+            }
+
+
+//            for (int i = 0; i < personList.size() ; i++) {
+//                System.out.println("person " + personList.get(i).getName());
+//            }
 
             statementPeople.close();
             connection.close();
