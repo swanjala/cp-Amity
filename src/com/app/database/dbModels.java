@@ -143,6 +143,11 @@ public class dbModels {
                     System.out.println("The person name "+ i +" :"+ element.get(0).getName());
                 }
             }
+            /*TODO
+            * Ensure that loadstate functionality is debugged
+            * TODO
+            * Download and implement the SqL library
+            * */
 
 
 //            for (int i = 0; i < personList.size() ; i++) {

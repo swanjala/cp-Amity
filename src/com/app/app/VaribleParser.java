@@ -14,6 +14,11 @@ public class VaribleParser {
      * it into an array of usablevariables that adds a person to the application.
      */
 
+
+    /* TODO
+    * Ensure that a random list can be picked from
+    * a collection type*/
+
     public static List<Person> addPersonTokenizer(StringTokenizer addPersonST, Collection<List<Room>> roomInfo){
 
         Person personVars = new Person();
@@ -38,14 +43,29 @@ public class VaribleParser {
         }
 
         randomizedName = shuffleBox(roomInfo);
+
+        /**
+         * TODO
+         * Review Hashmap for living and Office
+         * if only one type occurs in an instance
+         */
+
         List<Room> livingSpace =randomizedName.get("Living") ;
         List<Room> officeSpace = randomizedName.get("Office") ;
+
+        System.out.println("Room Found "+ livingSpace.get(0).getRoomName());
 
 
         if (personVars.getAccomodationRequest().equals("Y") &&
                 !personVars.getCategory().equals("STAFF")) {
 
             personVars.setAccomodationRoom(livingSpace.get(0).getRoomName());
+
+            /**
+             * TODO
+             * Review space allocation to person and room occupants getter
+             */
+
             livingSpace.get(0).setPersonName(personVars.getName());
 
             personVars.setOfficeRoom(officeSpace.get(0).getRoomName());
@@ -85,6 +105,9 @@ public class VaribleParser {
 
     public static HashMap<String, List<Room>> shuffleBox(Collection<List<Room>> roomList) {
 
+        // Check for roomList Size
+        System.out.println("Room List Size" + roomList.size());
+
         Collection<List<Room>> livingRooms = new ArrayList<>();
         Collection<List<Room>> officeSpaces = new ArrayList<>();
 
@@ -112,6 +135,8 @@ public class VaribleParser {
                 }
 
         }
+        // Check for office Size
+        System.out.println("Room List Size" + officeSpaces.size());
 
         if (livingRooms.size()== 0){
 
@@ -119,12 +144,10 @@ public class VaribleParser {
 
         }else {
 
-            livingRoomIndex = randValue.nextInt(livingRooms.size());
-            /*TODO
-            * Ensure that a random list can be picked from
-            * a collection type*/
-            Collections.shuffle((List<?>) livingRooms);
-            livingRoomToAllocate = (List<Room>) livingRooms.iterator().next().get(livingRoomIndex);
+           //livingRoomIndex = randValue.nextInt(livingRooms.size());
+
+            //Collections.shuffle((List<?>) livingRooms);
+            livingRoomToAllocate = livingRooms.iterator().next();
 
         }
 
@@ -132,8 +155,8 @@ public class VaribleParser {
             officeSpaceToAllocate = null;
         } else {
             //officeIndex = randValue.nextInt(officeSpaces.size());
-            Collections.shuffle((List<?>) officeSpaces);
-            officeSpaceToAllocate = (List<Room>) officeSpaces.iterator().next().get(officeIndex);
+           // Collections.shuffle((List<?>) officeSpaces);
+            officeSpaceToAllocate = officeSpaces.iterator().next();
         }
 
         roomValues.put("Office", officeSpaceToAllocate);

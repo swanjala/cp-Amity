@@ -44,6 +44,8 @@ public class Room {
         }
     }
     public void setPersonName(String personName){
+
+
         this.roomOccupants.add(personName);
 
     }
