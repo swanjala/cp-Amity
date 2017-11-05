@@ -12,7 +12,9 @@ public class Room {
     private String roomName;
     private String category;
     private int capacity = 0;
+    private String personName;
     public Collection<List<Room>> roomInfo = new ArrayList<List<Room>>();
+    private List<String> roomOccupants;
 
 
     /* Set room name */
@@ -41,6 +43,12 @@ public class Room {
             setCapacity(6);
         }
     }
+    public void setPersonName(String personName){
+
+
+        this.roomOccupants.add(personName);
+
+    }
     /* Get room name*/
     public String getRoomName() {
 
@@ -56,6 +64,9 @@ public class Room {
     public int getRoomCapacity(){
 
         return capacity;
+    }
+    public List<String> getRoomOccupants(){
+        return  roomOccupants;
     }
 
 }

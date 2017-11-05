@@ -53,7 +53,6 @@ public class dbHelper {
 
     public boolean createRoomTable(String dbName) {
 
-
             String url = "jdbc:sqlite:" + dbName + ".db";
 
             try {

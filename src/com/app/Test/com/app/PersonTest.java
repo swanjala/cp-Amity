@@ -24,7 +24,7 @@ public class PersonTest {
     @BeforeClass
     public static void setUp(){
 
-         personOps = new PersonOps("Add Person SAMMY WANJALA FELLOW Y",allPeopleData,allRoomsData);
+         //personOps = new PersonOps("Add Person SAMMY WANJALA FELLOW Y",allPeopleData,allRoomsData);
          reallocate = new PersonOps("SAMMY WANJALA",
                  "HOGWARTS",allPeopleData);
 
