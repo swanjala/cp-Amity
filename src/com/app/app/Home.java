@@ -62,26 +62,24 @@ public class Home {
         System.out.println(" " + start());
 
         do {
-            navigationString = input.nextLine();
+            navigationString = input.nextLine().toUpperCase();
 
             if (navigationString.length() > 12) {
                 navContent = navigationString.substring(0, 12);
             }
 
-            if (navContent.contains("Add Person")) {
+            if (navContent.contains("ADD PERSON")) {
 
                 PersonOps personOps = new PersonOps(navigationString,personInfo,roomInfo);
 
-                List<Person> pData = personOps.addPerson();
-                personInfo.add(pData);
+                List<Person> personData = personOps.addPerson();
+                personInfo.add(personData);
 
                 System.out.println("Name \t \t  Category \t Room \t Office");
 
                 printer(personInfo);
 
-            }
-
-            if (navContent.contains("Add Room")) {
+            } else  if (navContent.contains("ADD ROOM")) {
 
                 List<Room> roomVarList = addRoomTokenizer(navigationString);
 
@@ -99,8 +97,7 @@ public class Home {
                             "" + roomElements.get(0).getRoomCapacity());
                 }
 
-            }
-            if (navigationString.contains("Reallocate")) {
+            } else if(navigationString.contains("REALLOCATE")) {
 
                 String[] roomVars = reallocateRoomTokenizer(navigationString);
 
@@ -109,16 +106,14 @@ public class Home {
                 PersonOps personOps = new PersonOps(roomVars[0], roomVars[1], personInfo);
                 personOps.reallocatePerson();
 
-            }
-            if (navigationString.contains("Save State")) {
+            }else if (navigationString.contains("SAVE STATE")) {
 
                 String dbName = saveLoadStateTokenizer(navigationString);
 
                 dbModels models = new dbModels();
                 models.saveState(dbName, personInfo, roomInfo);
 
-            }
-            if (navigationString.contains("Load State")) {
+            }else if (navigationString.contains("LOAD STATE")) {
 
                 String dbName = saveLoadStateTokenizer(navigationString);
 
@@ -136,16 +131,15 @@ public class Home {
                     roomInfo.add(roomList);
                 }
 
-            }
-            if (navigationString.contains("Print People")){
+            } else if (navigationString.contains("PRINT PEOPLE")){
 
                 PersonOps personOps = new PersonOps();
 
                 String peopleValue = personOps.printPeople(personInfo);
 
                 System.out.println(peopleValue);
-            }
-            if (navigationString.contains("Print Room")){
+
+            }else if (navigationString.contains("PRINT ROOM")){
 
                 String printRoomVar = printRoomTokenizer(navigationString);
 
@@ -160,13 +154,15 @@ public class Home {
                        System.out.println(personElementList.get(0).getName());
                    }
                 }
+            }else if(navigationString.contains("QUIT")){
+                System.exit(0);
             }
 
             else {
 
                 System.out.println("Enter Correct Commands, see description for help");
             }
-        } while (!navigationString.equals("quit"));
+        } while (!navigationString.equals("QUIT"));
 
         System.exit(0);
 

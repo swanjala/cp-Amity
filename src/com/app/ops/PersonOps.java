@@ -33,14 +33,16 @@ public class PersonOps extends VaribleParser{
 
         StringTokenizer addPersonST = new StringTokenizer(userInput.substring(10), " ");
 
-        List<Person> varList  = new ArrayList<>();
+            List<Person> varList  = new ArrayList<>();
 
-        int tokenCounter = addPersonST.countTokens();
+            int tokenCounter = addPersonST.countTokens();
 
-        if (tokenCounter < 3) {
+            System.out.println("Token COunter"+ tokenCounter);
 
-            System.out.printf( "Use this format \n" +
-                    "Add Person <First Name> <Second Name> <Category> <Wants Accomodation> ");
+            if (tokenCounter < 3) {
+
+                System.out.printf( "Use this format \n" +
+                        "Add Person <First Name> <Second Name> <Category> <Wants Accomodation> ");
 
         } else if (tokenCounter == 3) {
 
@@ -54,6 +56,9 @@ public class PersonOps extends VaribleParser{
 
             varList = addPersonTokenizer(addPersonST, roomInfo);
         }
+        /*TODO
+        * Ensure that nullpointer errors are handled and input streamlined
+        * */
 
         person.setName(varList.get(0).getName());
         person.setCategory(varList.get(0).getCategory());

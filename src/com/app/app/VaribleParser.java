@@ -14,12 +14,17 @@ public class VaribleParser {
      * it into an array of usablevariables that adds a person to the application.
      */
 
+
+    /* TODO
+    * Ensure that a random list can be picked from
+    * a collection type*/
+
     public static List<Person> addPersonTokenizer(StringTokenizer addPersonST, Collection<List<Room>> roomInfo){
 
         Person personVars = new Person();
         StringBuilder nameSb = new StringBuilder();
         List<Person> addPersonVarObject = new ArrayList<Person>();
-        HashMap<String, String> randomizedName;
+        HashMap<String, List<Room>> randomizedName;
 
         while (addPersonST.hasMoreTokens()) {
 
@@ -39,23 +44,46 @@ public class VaribleParser {
 
         randomizedName = shuffleBox(roomInfo);
 
+        /**
+         * TODO
+         * Review Hashmap for living and Office
+         * if only one type occurs in an instance
+         */
+
+        List<Room> livingSpace =randomizedName.get("Living") ;
+        List<Room> officeSpace = randomizedName.get("Office") ;
+
+        System.out.println("Room Found "+ livingSpace.get(0).getRoomName());
+
+
         if (personVars.getAccomodationRequest().equals("Y") &&
                 !personVars.getCategory().equals("STAFF")) {
 
-            randomizedName = shuffleBox(roomInfo);
-            personVars.setAccomodationRoom(randomizedName.get("Living"));
-            personVars.setOfficeRoom(randomizedName.get("Office"));
+            personVars.setAccomodationRoom(livingSpace.get(0).getRoomName());
+
+            /**
+             * TODO
+             * Review space allocation to person and room occupants getter
+             */
+
+            livingSpace.get(0).setPersonName(personVars.getName());
+
+            personVars.setOfficeRoom(officeSpace.get(0).getRoomName());
+            officeSpace.get(0).setPersonName(personVars.getName());
+
 
         } else if (personVars.getAccomodationRequest().toUpperCase().trim().equals("N") &&
                 personVars.getCategory().trim().equals("FELLOW")) {
 
             personVars.setAccomodationRoom("None");
-            personVars.setOfficeRoom(randomizedName.get("Office"));
+            personVars.setOfficeRoom(officeSpace.get(0).getRoomName());
+            officeSpace.get(0).setPersonName(personVars.getName());
 
         } else if (personVars.getCategory().equals("STAFF")) {
 
             personVars.setAccomodationRoom("None");
-            personVars.setOfficeRoom(randomizedName.get("Office"));
+            personVars.setOfficeRoom(officeSpace.get(0).getRoomName());
+            officeSpace.get(0).setPersonName(personVars.getName());
         }
 
 
@@ -75,16 +103,19 @@ public class VaribleParser {
      * @return
      */
 
-    public static HashMap<String, String> shuffleBox(Collection<List<Room>> roomList) {
+    public static HashMap<String, List<Room>> shuffleBox(Collection<List<Room>> roomList) {
 
-        List<String> livingRoomNames = new ArrayList<>();
-        List<String> officeSpace = new ArrayList<>();
+        // Check for roomList Size
+        System.out.println("Room List Size" + roomList.size());
 
-        HashMap<String, String> roomValues = new HashMap<>();
+        Collection<List<Room>> livingRooms = new ArrayList<>();
+        Collection<List<Room>> officeSpaces = new ArrayList<>();
+
+        HashMap<String, List<Room>> roomValues = new HashMap<>();
         Random randValue = new Random();
 
-        String livingRoomToAllocate;
-        String officeSpaceToAllocate;
+        List<Room> livingRoomToAllocate = new ArrayList<>();
+        List<Room> officeSpaceToAllocate;
         int livingRoomIndex = 0;
         int officeIndex = 0;
 
@@ -95,36 +126,42 @@ public class VaribleParser {
 
             List<Room> roomIterator = iterator.next();
 
-
-            for (int index = 0; index < roomIterator.size(); index++) {
-
                 if (roomIterator.get(0).getRoomCategory().equals("LIVING")) {
-                    livingRoomNames.add(roomIterator.get(0).getRoomName());
+
+                    livingRooms.add(roomIterator);
+
                 } else if (roomIterator.get(0).getRoomCategory().equals("OFFICE")) {
-                    officeSpace.add(roomIterator.get(0).getRoomName());
+                    officeSpaces.add(roomIterator);
                 }
-            }
+
         }
+        // Check for office Size
+        System.out.println("Room List Size" + officeSpaces.size());
 
-        if (livingRoomNames.size()== 0){
+        if (livingRooms.size()== 0){
 
-            livingRoomToAllocate ="Sample Room";
+            livingRoomToAllocate = null;
 
         }else {
-            livingRoomIndex = randValue.nextInt(livingRoomNames.size());
-            livingRoomToAllocate = livingRoomNames.get(livingRoomIndex);
+
+           //livingRoomIndex = randValue.nextInt(livingRooms.size());
+
+            //Collections.shuffle((List<?>) livingRooms);
+            livingRoomToAllocate = livingRooms.iterator().next();
+
         }
 
-        if (officeSpace.size() ==0){
-            officeSpaceToAllocate = "Sample Space";
+        if (officeSpaces.size() ==0){
+            officeSpaceToAllocate = null;
         } else {
-            officeIndex = randValue.nextInt(officeSpace.size());
-            officeSpaceToAllocate = officeSpace.get(officeIndex);
+            //officeIndex = randValue.nextInt(officeSpaces.size());
+           // Collections.shuffle((List<?>) officeSpaces);
+            officeSpaceToAllocate = officeSpaces.iterator().next();
         }
 
         roomValues.put("Office", officeSpaceToAllocate);
         roomValues.put("Living", livingRoomToAllocate);
-        roomValues.put("NoRespose", "No Room");
+        roomValues.put("NoRespose", null);
 
         return roomValues;
 
